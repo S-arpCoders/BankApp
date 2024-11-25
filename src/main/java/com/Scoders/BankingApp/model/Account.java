@@ -14,11 +14,13 @@ public class Account {
     
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;  // UserID Foreign Key relationship
+    private User user;
     
     private Double balance;
 
-    // Getters and Setters
+    public Account() {
+    }
+
     public Long getAccNo() {
         return accNo;
     }
