@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>Transfer</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Transfer Funds</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"> <!-- Link to CSS file -->
 </head>
 <body>
-<h1>Transfer Money</h1>
-<form action="#" th:action="@{/transfer}" method="post">
-    <label for="fromAccount">From Account:</label>
-    <select name="fromAccount" id="fromAccount">
-        <option th:each="account : ${accounts}" th:value="${account.accNo}" th:text="${account.accNo}"></option>
-    </select>
-
-    <label for="toAccount">To Account:</label>
-    <select name="toAccount" id="toAccount">
-        <option th:each="account : ${accounts}" th:value="${account.accNo}" th:text="${account.accNo}"></option>
-    </select>
-
-    <label for="amount">Amount:</label>
-    <input type="number" id="amount" name="amount" required>
-
-    <button type="submit">Transfer</button>
-</form>
-
+<div class="container">
+    <h1>Transfer Funds</h1>
+    <form th:action="@{/transfer}" method="post">
+        <div class="form-group">
+            <label for="fromAccount">From Account</label>
+            <select id="fromAccount" name="fromAccount" required>
+                <option th:each="account : ${accounts}" th:value="${account.accNo}"
+                        th:text="'Account #' + ${account.accNo} + ' - Balance: R' + ${account.balance}">
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="toAccount">To Account</label>
+            <input type="number" id="toAccount" name="toAccount" placeholder="Recipient Account Number" required>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" name="amount" placeholder="Enter Amount" required>
+        </div>
+        <button type="submit" class="btn">Transfer</button>
+    </form>
+    <p th:if="${status}" th:text="${status}" class="status"></p>
+</div>
 </body>
 </html>
