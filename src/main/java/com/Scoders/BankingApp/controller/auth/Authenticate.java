@@ -18,4 +18,9 @@ public class Authenticate {
     public String login(){
     return "login";
 }
+@GetMapping("/surname")
+    public String surname(){
+        return "surname";
+    }
+
 }
