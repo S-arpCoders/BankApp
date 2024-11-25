@@ -13,10 +13,8 @@ import java.util.List;
 public class transferController {
     transferUseCases use = new transferUseCases();
     @GetMapping("/transfer")
-    public String transferForm(
-//            @RequestParam("user") long currentUser,
+    public String transferForm(@RequestParam("user") long currentUser,
             Model model) {
-
 
         List<Account> accounts = use.getUsersAccounts(13453);
         model.addAttribute("accounts", accounts);
@@ -24,13 +22,18 @@ public class transferController {
     }
 
     @PostMapping("/transfer")
-    public String transfer(@RequestParam("fromAccount") long fromAccount,
+    public String transfer(@RequestParam("user") long currentUser,
+            @RequestParam("fromAccount") long fromAccount,
                            @RequestParam("toAccount") long toAccount,
                            @RequestParam("amount") double amount,
                            Model model) {
-
-
+        String status = use.transferFunds(currentUser,fromAccount, toAccount, amount);
+        model.addAttribute("user",currentUser);
+        model.addAttribute("status", status);
         return "status";
     }
+
+
+
 
 }
