@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transfer</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>Transfer Money</h1>
+<form action="#" th:action="@{/transfer}" method="post">
+    <label for="fromAccount">From Account:</label>
+    <select name="fromAccount" id="fromAccount">
+        <option th:each="account : ${accounts}" th:value="${account.accNo}" th:text="${account.accNo}"></option>
+    </select>
+
+    <label for="toAccount">To Account:</label>
+    <select name="toAccount" id="toAccount">
+        <option th:each="account : ${accounts}" th:value="${account.accNo}" th:text="${account.accNo}"></option>
+    </select>
+
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" required>
+
+    <button type="submit">Transfer</button>
+</form>
+
+</body>
+</html>
