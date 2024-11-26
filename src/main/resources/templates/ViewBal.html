@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1 th:text="${Ngwane}"></h1>
+<div class="container">
+    <h1>All Accounts</h1>
+    <p>Click on any account to view its details:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Account Number</th>
+            <th>Account Holder</th>
+            <th>Balance</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="account : ${accounts}">
+            <td th:text="${account.accountNumber}"></td>
+            <td th:text="${account.accountHolder}"></td>
+            <td th:text="${account.balance}"></td>
+            <td><a th:href="@{/details/{accountNumber}(accountNumber=${account.accountNumber})}" class="btn">View Details</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
