@@ -3,6 +3,7 @@ package com.Scoders.BankingApp.controller.auth;
 import com.Scoders.BankingApp.database.AccountDatabase;
 import com.Scoders.BankingApp.database.TransactionDatabase;
 import com.Scoders.BankingApp.database.UserDatabase;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,9 +56,12 @@ if (response){
 public String login(
         @RequestParam("username") String username,
         @RequestParam("password") String password,
-        Model model
+        Model model,
+        HttpSession session
+
 ){
-    boolean response = auth.login(username,password);
+    boolean response = auth.login(username,password,session);
+
     if (response){
         model.addAttribute("response", "You logged in Successfully!");
 
