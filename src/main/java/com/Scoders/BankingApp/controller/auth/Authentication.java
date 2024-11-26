@@ -12,7 +12,7 @@ public class Authentication {
     }
 
     public boolean login( String username,String password){
-        User user = UserDatabase.getUserById(1L);
+        User user = UserDatabase.getUserByUsername(username);
 
         if (user.getUsername().equals(username) && user.getPassword().equals(password)){
             return true;
