@@ -16,7 +16,7 @@ public class AccountController {
     public String viewAccounts(@RequestParam Long userId, Model model) {
         User user = UserDatabase.getUserById(userId);
         if (user == null) {
-            return "error"; // Redirect to an error page if the user is not found
+            return "error";
         }
 
 
@@ -45,9 +45,9 @@ public class AccountController {
             return "error"; // Redirect to an error page with an appropriate message
         }
 
-        // Create a new account and insert into the database
-        AccountDatabase.insertAccount(userId,0.0); // userId, accountType, 0.0 Assuming accountType is saved in the database
 
-        return "redirect:/dashboard?userId=" + userId; // Redirect back to the accounts dashboard
+        AccountDatabase.insertAccount(userId,0.0);
+
+        return "redirect:/dashboard?userId=" + userId;
     }
 }
