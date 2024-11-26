@@ -1,6 +1,9 @@
 package com.Scoders.BankingApp.controller.withdrawal;
 
+import com.Scoders.BankingApp.database.AccountDatabase;
 import com.Scoders.BankingApp.model.Account;
+import com.Scoders.BankingApp.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,13 +12,36 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
+
+
 @Controller
 public class withdrawController {
 
     // Display the withdrawal form
     @GetMapping("/withdraw")
-    public String showWithdrawPage(Model model) {
+    public String showWithdrawPage(HttpSession session, Model model) {
+
+
+        // Retrieve the current user from the session
+        User user = (User) session.getAttribute("currentAccount");
+
+        // Check if user is null to avoid NullPointerException
+        if (user == null) {
+            model.addAttribute("error", "No user is currently logged in.");
+            return "error";
+        }
+
+        // Add a message to the model
         model.addAttribute("message", "How much do you want to withdraw today?");
+
+        // Retrieve the user's accounts (assuming a service method exists)
+        List<Account> accounts = (List<Account>) AccountDatabase.getAccountByAccNo(1l);
+
+        // Add user and account data to the model
+        model.addAttribute("user", user);
+        model.addAttribute("accounts", accounts);
         return "withdraw";
     }
 
