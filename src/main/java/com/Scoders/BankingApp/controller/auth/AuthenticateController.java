@@ -40,12 +40,8 @@ public String register(
 
 boolean response = auth.register(username,surname,password);
 
-if (response){
     return "login";
-}else {
-    model.addAttribute("response", "You Are Registered Successfully!");
-    return "status";
-}
+
 }
 
 @GetMapping("/login")
