@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Accounts Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Welcome, ${user.name}</h1>
+<h2>Your Accounts</h2>
+<ul>
+    <li th:each="account : ${accounts}">
+        Account ID: <span th:text="${account.id}"></span>,
+        Type: <span th:text="${account.type}"></span>,
+        Balance: <span th:text="${account.balance}"></span>
+    </li>
+</ul>
+<a href="/accounts/create">Create New Account</a>
+</body>
+</html>
