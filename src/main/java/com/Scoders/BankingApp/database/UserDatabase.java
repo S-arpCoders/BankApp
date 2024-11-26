@@ -40,6 +40,7 @@ public class UserDatabase {
     }
 
     // Method to get a user by ID
+
     public static User getUserById(Long id) {
         String selectSQL = "SELECT * FROM User WHERE id = ?";
         User user = null;
@@ -67,6 +68,36 @@ public class UserDatabase {
 
         return user;
     }
+
+
+
+    public static User getUserByUsername(String username) {
+        String selectSQL = "SELECT * FROM User WHERE username = ?";
+        User user = null;
+
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                Long userId = rs.getLong("id");
+                String surname = rs.getString("surname");
+                String password = rs.getString("password");
+
+                user = new User();
+                user.setId(userId);
+                user.setUsername(username);
+                user.setSurname(surname);
+                user.setPassword(password);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving user: " + e.getMessage());
+        }
+
+        return user;
+    }
+
 
     public static void updateUser(Long id, String username, String surname, String password) {
         String updateSQL = "UPDATE User SET username = ?, surname = ?, password = ? WHERE id = ?";
