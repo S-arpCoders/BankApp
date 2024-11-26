@@ -1,4 +1,4 @@
-package Accounts;
+package com.Scoders.BankingApp.controller.Accounts;
 
 import com.Scoders.BankingApp.database.AccountDatabase;
 import com.Scoders.BankingApp.database.UserDatabase;
@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/dashboard")
 public class AccountController {
 
-    @GetMapping
+    @GetMapping("/dashboard")
     public String viewAccounts(@RequestParam Long userId, Model model) {
         User user = UserDatabase.getUserById(userId);
         if (user == null) {
