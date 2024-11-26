@@ -1,6 +1,7 @@
 package com.Scoders.BankingApp.controller.transfer;
 
 import com.Scoders.BankingApp.database.AccountDatabase;
+import com.Scoders.BankingApp.database.TransactionDatabase;
 import com.Scoders.BankingApp.model.Account;
 
 import java.util.ArrayList;
@@ -46,8 +47,13 @@ public class transferUseCases {
         }
 
         // Perform transfer
+        //From
         AccountDatabase.updateBalance(fromAccount, sender.getBalance() - amount);
+        TransactionDatabase.insertTransaction(sender.getAccNo(),amount,"Transfer-send");
+
+        //To
         AccountDatabase.updateBalance(toAccount, receiver.getBalance() + amount);
+        TransactionDatabase.insertTransaction(receiver.getAccNo(),amount,"Transfer-receive");
 
         return "Transfer successful.";
     }
