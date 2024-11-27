@@ -4,6 +4,8 @@ import com.Scoders.BankingApp.model.Account;
 import com.Scoders.BankingApp.model.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.Scoders.BankingApp.database.UserDatabase.getUserById;
 
@@ -65,6 +67,30 @@ public class AccountDatabase {
                 // Now fetch the user from the database based on userId
                 User user = getUserById(userId); // Call the method to get User by ID
                 account.setUser(user); // Set the full User object
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving account: " + e.getMessage());
+        }
+
+        return account;
+    }
+
+    public static List<Account> getAccountByUserId(User user) {
+        String selectSQL = "SELECT * FROM Account WHERE user_id = ?";
+        List<Account> account = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
+            pstmt.setLong(1, user.getId());
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Long AccNo = rs.getLong("accNo");
+                Double balance = rs.getDouble("balance");
+
+                account.add(new Account(AccNo,user,balance));
+
 
             }
         } catch (SQLException e) {

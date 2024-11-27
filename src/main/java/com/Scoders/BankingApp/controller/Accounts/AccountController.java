@@ -2,7 +2,9 @@ package com.Scoders.BankingApp.controller.Accounts;
 
 import com.Scoders.BankingApp.database.AccountDatabase;
 import com.Scoders.BankingApp.database.UserDatabase;
+import com.Scoders.BankingApp.model.Account;
 import com.Scoders.BankingApp.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,41 +15,49 @@ import java.util.List;
 public class AccountController {
 
     @GetMapping("/dashboard")
-    public String viewAccounts(@RequestParam Long userId, Model model) {
-        User user = UserDatabase.getUserById(userId);
+    public String viewAccounts(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("currentUser");
         if (user == null) {
-            return "error";
+            model.addAttribute("errorMessage", "User not found!");
+            return "login";
         }
 
-
-        var accounts = AccountDatabase.getAccountByAccNo(userId);
+        List<Account> accounts = AccountDatabase.getAccountByUserId(user);
         model.addAttribute("user", user);
         model.addAttribute("accounts", accounts);
 
-        return "dashboard"; // Thymeleaf or JSP template for the accounts dashboard
+        return "dashboard";
     }
 
     @GetMapping("/create")
-    public String createAccForm(Model model) {
-        model.addAttribute("accountTypes", List.of("Savings", "Current")); // Example account types
-        return "createAccount"; // Thymeleaf or JSP template for the account creation form
+    public String createAccForm(Model model,HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+        model.addAttribute("user", user);
+        model.addAttribute("accountTypes", List.of("Savings", "Current"));
+        if (user == null) {
+            model.addAttribute("errorMessage", "User not found!");
+            return "login";
+        }
+        return "createAcc";
+
     }
 
     @PostMapping("/create")
     public String createAccount(
-            @RequestParam Long userId,
             @RequestParam String accountType,
+            HttpSession session,
             Model model
     ) {
-        User user = UserDatabase.getUserById(userId);
+        User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             model.addAttribute("errorMessage", "User not found!");
-            return "error"; // Redirect to an error page with an appropriate message
+            return "login";
         }
 
 
-        AccountDatabase.insertAccount(userId,0.0);
+        AccountDatabase.insertAccount(user.getId(),50.0);
 
-        return "redirect:/dashboard?userId=" + userId;
+        model.addAttribute("message","account created successful");
+        return "status";
     }
 }

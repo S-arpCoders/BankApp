@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Create Account</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <h1>Create a New Account</h1>
-<form action="/accounts/create" method="post">
-    <input type="hidden" name="userId" value="${user.id}">
+<form action="/create" method="post">
     <label for="accountType">Account Type:</label>
     <select name="accountType" id="accountType">
         <option th:each="type : ${accountTypes}" th:value="${type}" th:text="${type}"></option>
