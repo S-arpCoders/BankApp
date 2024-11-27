@@ -130,4 +130,33 @@ public class AccountDatabase {
         }
     }
 
+    public static List<Account> getAllAccounts() {
+        List<Account> accounts = new ArrayList<>();
+        String selectSQL = "SELECT accNo, user_id, balance FROM Account";
+
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
+             Statement pstmt = conn.createStatement();
+             ResultSet rs = pstmt.executeQuery(selectSQL)) {
+
+            while (rs.next()) {
+                Long accNo = rs.getLong("accNo");
+                Long userId = rs.getLong("user_id");
+                Double balance = rs.getDouble("balance");
+
+                Account account = new Account();
+                account.setAccNo(accNo);
+                account.setBalance(balance);
+
+                // Fetch user details and set it in the account
+                User user = getUserById(userId);
+                account.setUser(user);
+
+                accounts.add(account);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching accounts: " + e.getMessage());
+        }
+
+        return accounts;
+    }
 }

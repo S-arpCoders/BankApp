@@ -52,4 +52,80 @@ h1 {
 
 .btn:hover {
     background: #2980b9;
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #004ba0;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.container {
+    text-align: center;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 800px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table th {
+    background-color: #64b5f6;
+    color: #fff;
+    font-size: 1rem;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #e3f2fd;
+}
+
+table tbody tr:hover {
+    background-color: #bbdefb;
+}
+
+.btn {
+    display: inline-block;
+    background: #64b5f6;
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #42a5f5;
+
 }
