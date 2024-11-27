@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Account {
+public class    Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accNo;
@@ -19,6 +19,12 @@ public class Account {
     private Double balance;
 
     public Account() {
+    }
+
+    public Account(Long accNo, User user, Double balance) {
+        this.accNo = accNo;
+        this.user = user;
+        this.balance = balance;
     }
 
     public Long getAccNo() {
