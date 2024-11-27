@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Banking App</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/styleH.css">
 </head>
 <body>
 <div class="container">
@@ -22,27 +22,27 @@
         </thead>
         <tbody>
         <!-- Static Rows -->
-        <tr>
-            <td>123456</td>
-            <td>John Doe</td>
-            <td>R1,000.00</td>
-            <td>
-                <a href="/details/123456" class="btn">View Details</a>
-            </td>
-        </tr>
-        <tr>
-            <td>789012</td>
-            <td>Jane Smith</td>
-            <td>R2,500.00</td>
-            <td>
-                <a href="/details/789012" class="btn">View Details</a>
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <td>123456</td>-->
+<!--            <td>John Doe</td>-->
+<!--            <td>R1,000.00</td>-->
+<!--            <td>-->
+<!--                <a href="/details/123456" class="btn">View Details</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>789012</td>-->
+<!--            <td>Jane Smith</td>-->
+<!--            <td>R2,500.00</td>-->
+<!--            <td>-->
+<!--                <a href="/details/789012" class="btn">View Details</a>-->
+<!--            </td>-->
+<!--        </tr>-->
 
         <!-- Dynamic Rows -->
         <tr th:each="account, stat : ${accounts}">
             <td th:text="${account.accNo}">--</td>
-            <td th:text="${account.username}">--</td>
+            <td th:text="${user.getUsername()}">--</td>
             <td th:text="${account.balance}">--</td>
             <td>
                 <a th:href="@{/details/{accNo}(accNo=${account.accNo})}" class="btn">View Details</a>

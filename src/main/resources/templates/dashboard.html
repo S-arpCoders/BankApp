@@ -6,13 +6,8 @@
 </head>
 <body>
 <h1>Welcome, <span th:text="${user.username}"></span>!</h1>
-<h2>Your Accounts</h2>
-<ul>
-    <li th:each="account : ${accounts}">
-        Account Number: <span th:text="${account.accNo}"></span>,
-        Balance: R<span th:text="${account.balance}"></span>
-    </li>
-</ul>
-<a href="/create">Create New Account</a>
+
+<a href="/create" class="btn">Create New Account</a>
+<a href="/ViewBal" class="btn">View Balance</a>
 </body>
 </html>
