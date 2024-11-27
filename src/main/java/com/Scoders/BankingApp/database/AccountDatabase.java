@@ -4,6 +4,8 @@ import com.Scoders.BankingApp.model.Account;
 import com.Scoders.BankingApp.model.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.Scoders.BankingApp.database.UserDatabase.getUserById;
 
@@ -74,6 +76,30 @@ public class AccountDatabase {
         return account;
     }
 
+    public static List<Account> getAccountByUserId(User user) {
+        String selectSQL = "SELECT * FROM Account WHERE user_id = ?";
+        List<Account> account = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
+             PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
+            pstmt.setLong(1, user.getId());
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Long AccNo = rs.getLong("accNo");
+                Double balance = rs.getDouble("balance");
+
+                account.add(new Account(AccNo,user,balance));
+
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving account: " + e.getMessage());
+        }
+
+        return account;
+    }
+
 
     // Method to update the balance of an account
     public static void updateBalance(Long accNo, Double newBalance) {
@@ -104,4 +130,33 @@ public class AccountDatabase {
         }
     }
 
+    public static List<Account> getAllAccounts() {
+        List<Account> accounts = new ArrayList<>();
+        String selectSQL = "SELECT accNo, user_id, balance FROM Account";
+
+        try (Connection conn = DriverManager.getConnection(DATABASE_URL);
+             Statement pstmt = conn.createStatement();
+             ResultSet rs = pstmt.executeQuery(selectSQL)) {
+
+            while (rs.next()) {
+                Long accNo = rs.getLong("accNo");
+                Long userId = rs.getLong("user_id");
+                Double balance = rs.getDouble("balance");
+
+                Account account = new Account();
+                account.setAccNo(accNo);
+                account.setBalance(balance);
+
+                // Fetch user details and set it in the account
+                User user = getUserById(userId);
+                account.setUser(user);
+
+                accounts.add(account);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching accounts: " + e.getMessage());
+        }
+
+        return accounts;
+    }
 }
