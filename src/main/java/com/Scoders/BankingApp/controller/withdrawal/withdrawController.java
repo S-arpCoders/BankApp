@@ -25,19 +25,19 @@ public class withdrawController {
 
 
         // Retrieve the current user from the session
-        User user = (User) session.getAttribute("currentAccount");
+        User user = (User) session.getAttribute("currentUser");
 
-        // Check if user is null to avoid NullPointerException
-        if (user == null) {
-            model.addAttribute("error", "No user is currently logged in.");
-            return "error";
-        }
+       // Check if user is null to avoid NullPointerException
+       if (user == null) {
+
+          return "login ";
+       }
 
         // Add a message to the model
         model.addAttribute("message", "How much do you want to withdraw today?");
 
         // Retrieve the user's accounts (assuming a service method exists)
-        List<Account> accounts = (List<Account>) AccountDatabase.getAccountByAccNo(1l);
+        List<Account> accounts = AccountDatabase.getAccountByUserId(user);
 
         // Add user and account data to the model
         model.addAttribute("user", user);
@@ -48,31 +48,32 @@ public class withdrawController {
     // Handle the withdrawal process
     @PostMapping("/withdraw")
     public String withdraw(
-            @RequestParam("user") long currentUser,
-            @RequestParam("fromAccount") long fromAccount,
-            @RequestParam("toAccount") long toAccount, 
-            @RequestParam("balance") long balance,
+            @RequestParam("toAccount") long accountNo,
+            @RequestParam("balance") double balance,
             Model model)
      {
-        try {
-           
-            if (balance < 10) {
-                throw new IllegalArgumentException("Minimum withdrawal amount is R10.");
-            }
 
-            // Withdraw the amount
-            withdrawController account = null;
-            account.withdraw(fromAccount, balance);
+         Account account = AccountDatabase.getAccountByAccNo(accountNo);
+         try {
 
-            model.addAttribute("message", "Successfully withdrew R" + String.format("%.2f", balance));
-            return "success"; // Redirect to a success page
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("error", "Error: " + e.getMessage());
-        } catch (Exception e) {
-            model.addAttribute("error", "An unexpected error occurred: " + e.getMessage());
-        }
+             if (balance < 10 && balance < account.getBalance()) {
+                 throw new IllegalArgumentException("Minimum withdrawal amount is R10.");
+             }
 
-        return "withdraw";
+//            // Withdraw the amount
+//            withdrawController account = null;
+//            account.withdraw(fromAccount, balance);
+
+             new withdrawal(account, balance);
+
+
+             model.addAttribute("message", "Successfully withdrew R" + String.format("%.2f", balance));
+             return "success"; // Redirect to a success page
+         } finally {
+             return "status";
+         }
+
+
     }
 
     private void withdraw(long fromAccount, long balance) {
