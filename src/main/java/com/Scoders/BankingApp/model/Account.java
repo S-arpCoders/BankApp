@@ -21,6 +21,12 @@ public class Account {
     public Account() {
     }
 
+    public Account(Long accNo, User user, Double balance) {
+        this.accNo = accNo;
+        this.user = user;
+        this.balance = balance;
+    }
+
     public Long getAccNo() {
         return accNo;
     }
