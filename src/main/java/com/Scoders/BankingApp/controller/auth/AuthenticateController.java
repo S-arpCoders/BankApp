@@ -19,8 +19,8 @@ public class AuthenticateController {
     public String index()
 {
     UserDatabase.createUserTable();
-    TransactionDatabase.createTransactionTable();
     AccountDatabase.createAccountTable();
+    TransactionDatabase.createTransactionTable();
     return "index"; // Render index.html
 }
 
