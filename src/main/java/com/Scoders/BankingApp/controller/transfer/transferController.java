@@ -1,6 +1,9 @@
 package com.Scoders.BankingApp.controller.transfer;
 
+import com.Scoders.BankingApp.database.AccountDatabase;
 import com.Scoders.BankingApp.model.Account;
+import com.Scoders.BankingApp.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,22 +16,27 @@ import java.util.List;
 public class transferController {
     transferUseCases use = new transferUseCases();
     @GetMapping("/transfer")
-    public String transferForm(@RequestParam("user") long currentUser,
-            Model model) {
+    public String transferForm(HttpSession session,
+                               Model model) {
 
-        List<Account> accounts = use.getUsersAccounts(13453);
+        User user = (User) session.getAttribute("currentUser");
+
+        if (user==null){
+            return "login";
+        }
+        List<Account> accounts = AccountDatabase.getAccountByUserId(user);
         model.addAttribute("accounts", accounts);
         return "transfer";
     }
 
     @PostMapping("/transfer")
-    public String transfer(@RequestParam("user") long currentUser,
+    public String transfer(HttpSession session,
             @RequestParam("fromAccount") long fromAccount,
                            @RequestParam("toAccount") long toAccount,
                            @RequestParam("amount") double amount,
                            Model model) {
-        String status = use.transferFunds(currentUser,fromAccount, toAccount, amount);
-        model.addAttribute("user",currentUser);
+        User user = (User) session.getAttribute("currentUser");
+        String status = use.transferFunds(user,fromAccount, toAccount, amount,model);
         model.addAttribute("status", status);
         return "status";
     }
