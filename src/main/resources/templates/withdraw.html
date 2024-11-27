@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="styleN.css">
+    <title>Withdraw Money</title>
+</head>
+<body>
+<div class="form-container">
+    <div class="header">
+        <h1>Withdraw Money</h1>
+        <p th:text="${message}"></p>
+    </div>
+<form action="/withdraw" method="post">
+
+    <label for="toAccount">Select Account:</label>
+    <select id="toAccount" name="toAccount" required>
+        <option value="" disabled selected>Select an account</option>
+        <!-- Dynamically populate the dropdown with user accounts -->
+        <option th:each="account : ${accounts}"
+                th:text="${account.accNo} + ' - R' + ${account.balance}"
+        th:value="${account.accNo}"></option>
+    </select><br><br>
+
+    <label for="balance">Withdraw Amount:</label>
+    <input type="number" id="balance" name="balance" step="0.01" required><br>
+
+
+
+
+    <button type="submit">Withdraw</button>
+</form>
+
+<p th:if="${error}" th:text="${error}" style="color: red;"></p>
+</body>
+</html>
