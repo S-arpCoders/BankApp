@@ -2,6 +2,8 @@ package com.Scoders.BankingApp.controller.ViewBalance;
 
 import com.Scoders.BankingApp.database.AccountDatabase;
 import com.Scoders.BankingApp.model.Account;
+import com.Scoders.BankingApp.model.User;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +18,17 @@ public class ViewBalContr {
     AccountDatabase database = new AccountDatabase();
 
     @GetMapping("/ViewBal")
-    public String index(Model model) {
-        List<Account> accounts = database.getAllAccounts(); // Fetch all accounts
+    public String index(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+
+        if (user == null) {
+            return "login";
+        }
+
+        List<Account> accounts = AccountDatabase.getAccountByUserId(user);
         model.addAttribute("Ngwane", "View Money Site");
         model.addAttribute("accounts", accounts); // Pass accounts to the view
+        model.addAttribute("user", user);
         return "ViewBal"; // Return the Thymeleaf template name
     }
 
