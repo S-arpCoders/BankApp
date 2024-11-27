@@ -1,0 +1,27 @@
+<!-- src/main/resources/static/deposit.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Money</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Deposit Money into Account</h1>
+
+<form action="/deposit" method="POST">
+    <label for="accNo">Account Number:</label>
+    <input type="number" id="accNo" name="accNo" required>
+
+    <label for="amount">Amount to Deposit:</label>
+    <input type="number" id="amount" name="amount" step="0.01" required>
+
+    <button type="submit">Deposit</button>
+</form>
+
+<!-- Display success or error message -->
+<div id="message"></div>
+
+</body>
+</html>
