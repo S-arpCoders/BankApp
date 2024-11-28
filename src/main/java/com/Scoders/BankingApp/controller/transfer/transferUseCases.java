@@ -19,25 +19,29 @@ public class transferUseCases {
 
         if (sender == null || receiver == null) {
             model.addAttribute("response","One or both accounts do not exist.");
-            return "status";
+            return "transfer";
         }
 
         if (sender.getBalance() < amount) {
             model.addAttribute("response","Insufficient funds in the sender's account.");
-            return"status";
+            return "transfer";
+        }
+        if (amount < 1) {
+            model.addAttribute("response","Transfer a minimum of R1");
+            return "transfer";
         }
 
         // Perform transfer
         //From
         AccountDatabase.updateBalance(fromAccount, sender.getBalance() - amount);
-        //TransactionDatabase.insertTransaction(sender.getAccNo(),amount,"Transfer-send");
+        TransactionDatabase.insertTransaction(sender.getAccNo(),amount,"Transfer-send");
 
         //To
         AccountDatabase.updateBalance(toAccount, receiver.getBalance() + amount);
-        //TransactionDatabase.insertTransaction(receiver.getAccNo(),amount,"Transfer-receive");
+        TransactionDatabase.insertTransaction(receiver.getAccNo(),amount,"Transfer-receive");
 
         model.addAttribute("response","Transfer successful.");
-        return "status";
+        return "dashboard";
     }
 
 }

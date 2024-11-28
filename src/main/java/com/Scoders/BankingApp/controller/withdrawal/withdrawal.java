@@ -11,6 +11,6 @@ public class withdrawal {
         double newBalance = account.getBalance()-balance;
 
         AccountDatabase.updateBalance(account.getAccNo(),newBalance );
-       // TransactionDatabase.insertTransaction(account.getAccNo(),balance,"Withdrawal");
+       TransactionDatabase.insertTransaction(account.getAccNo(),balance,"withdrawal");
     }
 }

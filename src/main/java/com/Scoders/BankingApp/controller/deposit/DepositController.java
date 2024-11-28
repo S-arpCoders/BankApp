@@ -1,6 +1,7 @@
-package com.Scoders.BankingApp.controller;
+package com.Scoders.BankingApp.controller.deposit;
 
 import com.Scoders.BankingApp.database.AccountDatabase;
+import com.Scoders.BankingApp.database.TransactionDatabase;
 import com.Scoders.BankingApp.model.Account;
 import com.Scoders.BankingApp.model.User;
 import jakarta.servlet.http.HttpSession;
@@ -24,8 +25,12 @@ public class DepositController {
         Account account = AccountDatabase.getAccountByAccNo(accNo);
         
         if (account == null) {
-            model.addAttribute("message", "Account not found!");
+            model.addAttribute("response", "Account not found!");
             return "deposit";  // Show the deposit form with an error message
+        }
+        if (amount<10){
+            model.addAttribute("response", "Deposit a minimum of R10");
+            return "deposit";
         }
 
         // Calculate the new balance after deposit
@@ -33,6 +38,7 @@ public class DepositController {
 
         // Update the balance in the database
         AccountDatabase.updateBalance(accNo, newBalance);
+        TransactionDatabase.insertTransaction(accNo,amount,"Deposit");
 
         // Add a success message to the model and display the new balance
         model.addAttribute("response", "Deposit successful! New balance: " + newBalance);
@@ -40,9 +46,9 @@ public class DepositController {
         User user = (User) session.getAttribute("currentUser");
 
         if (user==null){
-            return "status2";
+            return "dashboard";
         }else {
-            return "status";  // Render the same deposit.html page with success message
+            return "dashboard";  // Render the same deposit.html page with success message
         }
 
 

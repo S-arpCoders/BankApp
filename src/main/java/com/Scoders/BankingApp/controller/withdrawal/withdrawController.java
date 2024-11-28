@@ -47,31 +47,39 @@ public class withdrawController {
 
     // Handle the withdrawal process
     @PostMapping("/withdraw")
-    public String withdraw(
-            @RequestParam("toAccount") long accountNo,
+    public String withdraw(HttpSession session,
+                           @RequestParam("toAccount") long accountNo,
             @RequestParam("balance") double balance,
             Model model)
      {
 
          Account account = AccountDatabase.getAccountByAccNo(accountNo);
-         try {
+         User user = (User) session.getAttribute("currentUser");
+         List<Account> accounts = AccountDatabase.getAccountByUserId(user);
 
-             if (balance < 10 && balance < account.getBalance()) {
-                 throw new IllegalArgumentException("Minimum withdrawal amount is R10.");
-             }
+         // Add user and account data to the model
+         model.addAttribute("user", user);
+         model.addAttribute("accounts", accounts);
+
+         if (account.getBalance() < balance) {
+             model.addAttribute("response","Insufficient funds in the sender's account.");
+             return"withdraw";
+         }
+         if (balance < 10) {
+             model.addAttribute("response","Minimum withdrawal amount is R10.");
+             return"withdraw";
+         }
+
 
 //            // Withdraw the amount
 //            withdrawController account = null;
 //            account.withdraw(fromAccount, balance);
 
-             new withdrawal(account, balance);
+         new withdrawal(account, balance);
 
 
-             model.addAttribute("message", "Successfully withdrew R" + String.format("%.2f", balance));
-             return "success"; // Redirect to a success page
-         } finally {
-             return "status";
-         }
+         model.addAttribute("response", "Successfully withdrew R" + String.format("%.2f", balance));
+         return "dashboard"; // Redirect to a success page
 
 
     }

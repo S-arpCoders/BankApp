@@ -16,6 +16,7 @@ public class AccountController {
 
     @GetMapping("/dashboard")
     public String viewAccounts(HttpSession session, Model model) {
+
         User user = (User) session.getAttribute("currentUser");
         if (user == null) {
             model.addAttribute("errorMessage", "User not found!");
@@ -55,9 +56,9 @@ public class AccountController {
         }
 
 
-        AccountDatabase.insertAccount(user.getId(),50.0);
+        AccountDatabase.insertAccount(user.getId(),0.00);
 
         model.addAttribute("message","account created successful");
-        return "status";
+        return "dashboard";
     }
 }

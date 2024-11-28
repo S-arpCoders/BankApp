@@ -48,6 +48,7 @@ boolean response = auth.register(username,surname,password);
     public String login(){
     return "login";
 }
+
 @PostMapping("/login")
 public String login(
         @RequestParam("username") String username,
@@ -56,16 +57,8 @@ public String login(
         HttpSession session
 
 ){
-    boolean response = auth.login(username,password,session);
 
-    if (response){
-        model.addAttribute("response", "You logged in Successfully!");
-
-    }else {
-        model.addAttribute("response", "Account not found! or incorrect credentials, go back and try again");
-
-    }
-    return "status";
+    return auth.login(username,password,session,model);
 }
 @GetMapping("/surname")
     public String surname(){
@@ -73,3 +66,4 @@ public String login(
     }
 
 }
+

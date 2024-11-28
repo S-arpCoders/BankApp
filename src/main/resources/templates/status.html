@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="refresh" content="3;url=/dashboard">
+    <title>Redirecting...</title>
 </head>
 <body>
-<h1 th:text="${response}" ></h1>
+<h1 th:text="${response}"></h1>
 <a th:href="@{/dashboard}">Go dashboard</a>
 </body>
 </html>
