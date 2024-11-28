@@ -1,0 +1,58 @@
+/*index*/
+ body {
+     font-family: Arial, sans-serif;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 100vh;
+     margin: 0;
+     background-image: url('/image/opt1.jpg'); /* Add your image URL */
+     background-position: center center;
+     background-repeat: no-repeat;
+     background-size: cover;
+ }
+
+ .container {
+     display: flex;
+     flex-direction: column; /* Aligns content vertically */
+     justify-content: center;
+     align-items: center;
+     gap: 1rem; /* Adds space between elements */
+     padding: 2rem;
+     background: rgba(196, 190, 192, 0.9); /* Semi-transparent background for contrast */
+     border-radius: 10px;
+     box-shadow: 1px 1px 2rem rgba(0, 0, 0, 0.3);
+     max-width: 500px;
+     width: 2000%;
+     text-align: center;
+ }
+
+ h1 {
+     margin: 0;
+     color: #333; /* Adjust color for better contrast */
+ }
+
+ .button-group {
+     display: flex;
+     flex-direction: column; /* Stacks buttons vertically */
+     gap: 1rem; /* Space between buttons */
+     width: 50%;
+ }
+
+ .btn {
+     text-decoration: none;
+     padding: 10px 20px;
+     background: black; /* Primary button color */
+     color: white;
+     border: none;
+     border-radius: 5px;
+     text-align: center;
+     font-weight: bold;
+     cursor: pointer;
+     transition: background 0.3s;
+ }
+
+ .btn:hover {
+     background: rgba(196, 190, 192, 0.9); /* Darker shade on hover */
+ }
+ /**/
