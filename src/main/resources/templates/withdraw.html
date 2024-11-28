@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" href="withdrawal.css">
     <link rel="stylesheet" href="styles.css">
     <title>Withdraw Money</title>
 </head>
@@ -12,6 +13,7 @@
         <p th:text="${message}"></p>
 
     </div>
+    <div class="withdraw_container">
 <form action="/withdraw" method="post">
 
     <label for="toAccount">Select Account:</label>
@@ -27,11 +29,9 @@
     <input type="number" id="balance" name="balance" step="0.01" required><br>
 
 
-
-
     <button type="submit">Withdraw</button>
 </form>
-
+</div>
 <p th:if="${error}" th:text="${error}" style="color: red;"></p>
 </body>
 </html>
