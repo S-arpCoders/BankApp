@@ -36,9 +36,11 @@ public class transferController {
                            @RequestParam("amount") double amount,
                            Model model) {
         User user = (User) session.getAttribute("currentUser");
-        String status = use.transferFunds(user,fromAccount, toAccount, amount,model);
-        model.addAttribute("status", status);
-        return "status";
+
+        List<Account> accounts = AccountDatabase.getAccountByUserId(user);
+        model.addAttribute("accounts", accounts);
+
+        return use.transferFunds(user,fromAccount, toAccount, amount,model);
     }
 
 

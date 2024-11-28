@@ -2,10 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Redirecting...</title>
+    <script type="text/javascript">
+        // Redirect immediately when the page is loaded
+        window.location.href = '/dashboard';
+    </script>
 </head>
 <body>
-<h1 th:text="${response}" ></h1>
-<a th:href="@{/dashboard}">Go dashboard</a>
+<h1 th:text="${response}"></h1>
+<a th:href="@{/dashboard}">Go to dashboard</a>
 </body>
 </html>

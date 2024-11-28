@@ -16,19 +16,25 @@ public class AccountController {
 
     @GetMapping("/dashboard")
     public String viewAccounts(HttpSession session, Model model) {
+
         User user = (User) session.getAttribute("currentUser");
+
         if (user == null) {
             model.addAttribute("errorMessage", "User not found!");
             return "login";
+        }else {
+            model.addAttribute("user", user);
+            System.out.println(user.getUsername());
+            return "dashboard";
         }
 
-        List<Account> accounts = AccountDatabase.getAccountByUserId(user);
-        model.addAttribute("user", user);
-        model.addAttribute("accounts", accounts);
 
-        return "dashboard";
     }
 
+    @GetMapping("/status")
+    public String status(){
+        return "status";
+    }
     @GetMapping("/create")
     public String createAccForm(Model model,HttpSession session) {
         User user = (User) session.getAttribute("currentUser");
@@ -55,9 +61,10 @@ public class AccountController {
         }
 
 
-        AccountDatabase.insertAccount(user.getId(),50.0);
+        AccountDatabase.insertAccount(user.getId(),0.00);
 
         model.addAttribute("message","account created successful");
-        return "status";
+        model.addAttribute("user",user);
+        return "dashboard";
     }
 }
