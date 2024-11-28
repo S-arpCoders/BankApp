@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('/image/opt1.jpg'); /* Add your image URL */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Wrapper container for centering content */
+.container {
+    display: flex;
+    flex-direction: column; /* Align content vertically */
+    justify-content: center;
+    align-items: center;
+    gap: 2rem; /* Space between elements */
+    padding: 2rem;
+    background: rgba(196, 190, 192, 0.9); /* Semi-transparent background */
+    border-radius: 10px;
+    box-shadow: 1px 1px 2rem rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 90%; /* Makes the container responsive */
+    text-align: center;
+}
+
+/* Welcome message styling */
+h1 {
+    margin: 0;
+    color: #333; /* Adjust color for better contrast */
+    font-size: 1.5rem;
+}
+
+/* Wrapper for buttons */
+.button-group {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 1rem; /* Space between buttons */
+    width: 100%; /* Buttons span full container width */
+}
+
+/* Button styling */
+.btn {
+    display: flex; /* Makes the button a flex container */
+    align-items: center; /* Vertically aligns icon and text */
+    justify-content: center; /* Center-aligns content */
+    text-decoration: none;
+    padding: 10px 20px;
+    background: black; /* Primary button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 80%; /* Reduced button width */
+    max-width: 300px; /* Limit the button width */
+    margin: 0 auto; /* Center-aligns the buttons */
+    gap: 0.5rem; /* Adds spacing between icon and text */
+}
+
+.btn i {
+    font-size: 1.2rem; /* Icon size */
+    margin-right: 0.5rem; /* Spacing between icon and text */
+}
+
+.btn:hover {
+    background: rgba(0, 0, 0, 0.6); /* Darker shade on hover */
+}
