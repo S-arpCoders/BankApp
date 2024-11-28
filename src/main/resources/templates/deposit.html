@@ -6,22 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deposit Money</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="transfer.css">
 </head>
 <body>
+<div id="transfer-container" class="container">
 <h1>Deposit Money into Account</h1>
 <h3 th:text="${response}" ></h3>
 <form action="/deposit" method="POST">
     <label for="accNo">Account Number:</label>
-    <input type="number" id="accNo" name="accNo" required>
+    <input type="number" id="accNo" name="accNo" maxlength="8" minlength="8" required>
 
     <label for="amount">Amount to Deposit:</label>
-    <input type="number" id="amount" name="amount" step="0.01" required>
+    <input type="number" id="amount" name="amount" step="5.00"  min="10.00" required>
 
-    <button type="submit">Deposit</button>
+    <br>
+    <button type="submit" class="btn">Deposit</button>
 </form>
+    <button class="btn" onclick="history.back()">Go Back</button>
 
-<!-- Display success or error message -->
-<div id="message"></div>
-
+</div>
 </body>
 </html>
