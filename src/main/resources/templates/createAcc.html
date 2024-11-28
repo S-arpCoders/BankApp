@@ -3,15 +3,25 @@
 <head>
     <title>Create Account</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Create.css">
 </head>
 <body>
-<h1>Create a New Account</h1>
+<div class="main-container">
+    <div class="wrapper-container">
+        <div class="header2">
+    <h1>Create a New Account</h1>
+
+</div>
+<div class="Create_container">
 <form action="/create" method="post">
     <label for="accountType">Account Type:</label>
     <select name="accountType" id="accountType">
         <option th:each="type : ${accountTypes}" th:value="${type}" th:text="${type}"></option>
     </select>
-    <button type="submit">Create Account</button>
+    <button type="submit" class="btn">Create Account</button>
+    <a href="/dashboard" style="text-decoration: none;" class="btn">Back</a>
 </form>
+    </div>
+</div>
 </body>
 </html>
