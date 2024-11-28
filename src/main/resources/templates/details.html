@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+  <thead>
+  <tr>
+    <th>Type</th>
+    <th>Balance</th>
+    <th>Date</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <tr th:each="transactions, stat : ${transactions}">
+    <td th:text="${transactions.getTransactionType()}">--</td>
+    <td th:text="${transactions.getAmount()}">--</td>
+    <td th:text="${transactions.getDateTime()}">--</td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
