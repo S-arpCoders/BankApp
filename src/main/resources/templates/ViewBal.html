@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<link rel="stylesheet" href="styles.css">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Banking App</title>
-    <link rel="stylesheet" href="/styleH.css">
+    <link rel="stylesheet" href="ViewStyle.css">
 </head>
 <body>
 <div class="container">
     <h1>View Money Site</h1>
-    <p>Welcome to the Banking App. Below is a list of all accounts. Click "View Details" for more information.</p>
+    <p>Welcome to the Banking App. Below is a list of all accounts.</p>
 
     <table>
         <thead>
@@ -22,21 +21,20 @@
         </tr>
         </thead>
         <tbody>
-
-        <tr th:each="account, stat : ${accounts}">
-            <td th:text="${account.accNo}">--</td>
-            <td th:text="${user.getUsername()}">--</td>
-            <td th:text="${account.balance}">--</td>
+        <tr th:each="account : ${accounts}">
+            <td th:text="${account.accNo}"></td>
+            <td th:text="${user.getUsername()}"></td>
+            <td th:text="'R '+ ${account.balance}"></td>
             <td>
                 <form th:action="@{/details}" method="post" style="display:inline;">
                     <input type="hidden" name="accNo" th:value="${account.accNo}" />
                     <button type="submit" class="btn">View Details</button>
                 </form>
-
             </td>
         </tr>
         </tbody>
-    </table>
+    </table><br>
+    <a href="/dashboard" class="btn">Back</a>
 </div>
 </body>
 </html>

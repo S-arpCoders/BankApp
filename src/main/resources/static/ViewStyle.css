@@ -1,0 +1,105 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('/image/opt1.jpg'); /* Add your image URL */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Main container styling */
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+}
+
+/* Heading and description */
+h1 {
+    color: black;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #555;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th,
+table td {
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background: #333;
+    color: white;
+    font-weight: bold;
+}
+
+table tbody tr:nth-child(odd) {
+    background: #e3f2fd;
+}
+
+table tbody tr:nth-child(even) {
+    background: #ffffff;
+}
+
+table tbody tr:hover {
+    background: #bbdefb;
+    cursor: pointer;
+}
+
+/* Button styling */
+.btn {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #333;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    table th,
+    table td {
+        padding: 8px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+}
