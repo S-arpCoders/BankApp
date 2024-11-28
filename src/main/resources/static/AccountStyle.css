@@ -59,10 +59,21 @@ h1 {
     margin: 0 auto;
     gap: 0.5rem;
 }
+@keyframes dance {
+    0%, 100% {
+        transform: translateY(0); /* Start and end at the original position */
+    }
+    50% {
+        transform: translateY(-5px); /* Bounce upward */
+    }
+}
 
 .btn i {
     font-size: 1.2rem;
     margin-right: 0.5rem;
+}
+.btn:hover i {
+    animation: dance 0.5s ease-in-out infinite;
 }
 
 .btn:hover {
