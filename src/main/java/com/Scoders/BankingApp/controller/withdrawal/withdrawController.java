@@ -79,6 +79,7 @@ public class withdrawController {
 
 
          model.addAttribute("response", "Successfully withdrew R" + String.format("%.2f", balance));
+         model.addAttribute("user",user);
          return "dashboard"; // Redirect to a success page
 
 

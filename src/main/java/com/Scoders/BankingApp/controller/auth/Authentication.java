@@ -24,6 +24,7 @@ public class Authentication {
         } else if (user.getUsername().equals(username) && user.getPassword().equals(password)){
             session.setAttribute("currentUser",user); //cookies
 
+            model.addAttribute("user",user);
             return "dashboard";
         }else {
             model.addAttribute("response", "Account not found! or incorrect credentials, go back and try again");

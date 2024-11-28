@@ -46,8 +46,9 @@ public class DepositController {
         User user = (User) session.getAttribute("currentUser");
 
         if (user==null){
-            return "dashboard";
+            return "deposit";
         }else {
+            model.addAttribute("user",user);
             return "dashboard";  // Render the same deposit.html page with success message
         }
 

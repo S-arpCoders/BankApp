@@ -41,6 +41,7 @@ public class transferUseCases {
         TransactionDatabase.insertTransaction(receiver.getAccNo(),amount,"Transfer-receive");
 
         model.addAttribute("response","Transfer successful.");
+        model.addAttribute("user",user);
         return "dashboard";
     }
 
