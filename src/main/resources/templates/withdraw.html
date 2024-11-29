@@ -2,33 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="withdrawal.css">
     <title>Withdraw Money</title>
 </head>
 <body>
-<div class="form-container">
-    <div class="header">
-        <h1>Withdraw Money</h1>
-        <h3 th:text="${response}" ></h3>
-        <p th:text="${message}"></p>
 
-    </div>
-    <div class="withdraw_container">
+
+<div class="withdraw_container">
 <form action="/withdraw" method="post">
+    <div class="form-container">
+        <div class="header">
+            <h1>Withdraw Money</h1>
+            <h3 th:text="${response}" ></h3>
+            <p th:text="${message}"></p>
 
-    <label for="toAccount">Select Account:</label>
-    <select id="toAccount" name="toAccount" required>
-        <option value="" disabled selected>Select an account</option>
-        <!-- Dynamically populate the dropdown with user accounts -->
-        <option th:each="account : ${accounts}"
-                th:text="${account.accNo} + ' - R' + ${account.balance}"
-        th:value="${account.accNo}"></option>
-    </select><br><br>
-
-    <label for="balance">Withdraw Amount:</label>
-    <input type="number" id="balance" name="balance" step="0.01" required><br>
+        </div>
+    </div>
 
 
-    <button type="submit">Withdraw</button>
+    <div>
+        <label for="toAccount" class="form-label mt-4"> Select Account</label>
+        <select class="form-select" id="toAccount" >
+            <  <option value="" disabled selected>Select an account</option>
+            <!-- Dynamically populate the dropdown with user accounts -->
+            <option th:each="account : ${accounts}"
+                    th:text="${account.accNo} + ' - R' + ${account.balance}"
+                    th:value="${account.accNo}"></option>
+        </select><br><br>
+    </div>
+
+
+
+
+
+
+    <label for="balance" class="form_Control " aria-label="Amount (to the nearest Rand)">Withdraw Amount:</label>
+    <div class="input-group mb-3">
+        <span class="input-group-text">R</span>
+        <input type="number" id ="balance"class="form-control" aria-label="Amount (to the nearest Rand)">
+        <span class="input-group-text">.00</span>
+    </div>
+
+
+
+
+
+    <div class="button-container mt-3">
+        <button type="submit" class="btn btn-primary">Withdraw</button>
+        <a href="/dashboard" class="btn btn-secondary">Back</a>
+    </div>
 </form>
 </div>
 <p th:if="${error}" th:text="${error}" style="color: red;"></p>
