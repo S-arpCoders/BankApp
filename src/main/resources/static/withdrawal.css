@@ -1,0 +1,39 @@
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+
+}
+
+/* Style for the container */
+.withdraw_container {
+    max-width: 900px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+}
+
+
+/* Input group styling */
+.input-group-text {
+    color: #495057;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.button-container .btn {
+    flex: 1;
+    max-width: 150px;
+}
+

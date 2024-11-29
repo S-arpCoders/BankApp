@@ -1,22 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
 <body>
-<h1>Register Here!</h1>
-<form action="#" th:action="@{/register}" method="post">
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" required>
-  <br>
-    <label for="surname">Surname:</label>
-    <input type="text" id="surname" name="surname" required>
-    <br>
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required>
-  <br>
-  <button type="submit">Register</button>
-</form>
+<div class="container_">
+  <!-- First container for the register box -->
+  <div class="box">
+    <div class="content">
+      <h2>
+        <img src="image/cash.png" alt="Register Icon"style="width: 30px; height: 30px; vertical-align: middle; margin-right: 8px; color:white; ">
+        Register Here!
+      </h2>
+      <form action="#" th:action="@{/register}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <div class="button-container_">
+          <button type="submit">
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+          </button>
+          <button type="button" >
+            <i class="fa fa-sign-in" aria-hidden="true" ></i>
+          </button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 </body>
 </html>

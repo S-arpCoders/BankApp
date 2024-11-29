@@ -1,27 +1,57 @@
-<!-- src/main/resources/static/deposit.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Deposit Money</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="transfer.css" rel="stylesheet">
+
+    <style>
+        .centred-text {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+.error-message {
+            color: red;
+            font-weight: bold;
+        }
+.button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+}
+
+    </style>
 </head>
 <body>
-<h1>Deposit Money into Account</h1>
+<div class="container mt-5" id="transfer-container">
+    <!-- Centered Text Section -->
+    <div class="centred-text">
+        <h1>Deposit Money into Account</h1>
+        <h3 th:classappend="${isError} ? 'error-message' : ''" th:if="${response}" th:text="${response}"></h3>
+    </div>
 
-<form action="/deposit" method="POST">
-    <label for="accNo">Account Number:</label>
-    <input type="number" id="accNo" name="accNo" required>
+    <!-- Form Section -->
+    <form action="/deposit" method="POST">
+        <label class="col-form-label mt-4" for="accNo">Account Number:</label>
+        <input class="form-control" id="accNo" minlength="8" name="accNo" required type="number">
 
-    <label for="amount">Amount to Deposit:</label>
-    <input type="number" id="amount" name="amount" step="0.01" required>
+        <label class="col-form-label mt-4" for="amount">Amount to Deposit:</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text">R</span>
+            <input aria-label="Amount (to the nearest rand)" class="form-control" id="amount" min="10.00"
+                   name="amount" required type="number">
+            <span class="input-group-text">.00</span>
+        </div>
 
-    <button type="submit">Deposit</button>
-</form>
-
-<!-- Display success or error message -->
-<div id="message"></div>
-
+        <!-- Buttons Section -->
+        <div class="button-group">
+            <button class="btn btn-primary" type="submit">Deposit</button>
+            <button class="btn btn-secondary" onclick="history.back()" type="button">Go Back</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>

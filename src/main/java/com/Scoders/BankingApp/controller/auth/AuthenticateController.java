@@ -3,6 +3,7 @@ package com.Scoders.BankingApp.controller.auth;
 import com.Scoders.BankingApp.database.AccountDatabase;
 import com.Scoders.BankingApp.database.TransactionDatabase;
 import com.Scoders.BankingApp.database.UserDatabase;
+import com.Scoders.BankingApp.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +17,16 @@ public class AuthenticateController {
 
     Authentication auth = new Authentication();
 @GetMapping ("/")
-    public String index()
+    public String index(HttpSession session)
 {
     UserDatabase.createUserTable();
     AccountDatabase.createAccountTable();
     TransactionDatabase.createTransactionTable();
+    User user = (User) session.getAttribute("currentUser");
+
+    if (user!= null){
+        session.removeAttribute("currentUser");
+    }
     return "index"; // Render index.html
 }
 
@@ -48,6 +54,7 @@ boolean response = auth.register(username,surname,password);
     public String login(){
     return "login";
 }
+
 @PostMapping("/login")
 public String login(
         @RequestParam("username") String username,
@@ -56,16 +63,8 @@ public String login(
         HttpSession session
 
 ){
-    boolean response = auth.login(username,password,session);
 
-    if (response){
-        model.addAttribute("response", "You logged in Successfully!");
-
-    }else {
-        model.addAttribute("response", "Account not found! or incorrect credentials, go back and try again");
-
-    }
-    return "status";
+    return auth.login(username,password,session,model);
 }
 @GetMapping("/surname")
     public String surname(){
@@ -73,3 +72,4 @@ public String login(
     }
 
 }
+
