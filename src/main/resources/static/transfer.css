@@ -1,0 +1,35 @@
+.container {
+
+     display: flex;
+     flex-direction: column; /* Aligns content vertically */
+     justify-content: center;
+     align-items: center;
+     gap: 1rem; /* Adds space between elements */
+     padding: 2rem;
+     border-radius: 10px;
+     box-shadow: 1px 1px 2rem rgba(0, 0, 0, 0.3);
+     max-width: 500px;
+     width: 2000%;
+     height: 70%;
+     text-align: center;
+
+      /* Center the container within its parent */
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+ }
+ .centred-text {
+             text-align: center;
+             margin-bottom: 20px;
+         }
+ .error-message {
+             color: red;
+             font-weight: bold;
+         }
+ .button-group {
+             display: flex;
+             justify-content: center;
+             gap: 10px;
+             margin-top: 20px;
+ }

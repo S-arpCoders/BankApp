@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transfer Funds</title>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="transfer.css" rel="stylesheet">
+    <style>
+        .centred-text {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+.error-message {
+            color: red;
+            font-weight: bold;
+        }
+.button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+}
+
+    </style>
+</head>
+<body>
+<div class="container" id="transfer-container">
+    <div class="centred-text">
+        <h1>Transfer Funds</h1>
+        <h3 th:classappend="${isError} ? 'error-message' : ''" th:if="${response}" th:text="${response}"></h3>
+    </div>
+    <!-- Form -->
+    <form action="/transfer" id="transferForm" method="post">
+        <div class="form-group">
+            <label class="form-label mt-4" for="fromAccount">From Account</label>
+            <select class="form-select" id="fromAccount" name="fromAccount" required>
+                <option selected value="">Select an account</option>
+                <option th:each="account : ${accounts}"
+                        th:text="'Account no.:' + ${account.accNo} + ' - R' + ${account.balance}"
+                        th:value="${account.accNo}">
+                </option>
+            </select>
+        </div>
+
+        <label class="col-form-label mt-4" for="toAccount">To Account Number:</label>
+        <input class="form-control" id="toAccount" minlength="8" name="toAccount" required type="number">
+
+        <label class="col-form-label mt-4" for="amount">Amount to transfer:</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text">R</span>
+            <input aria-label="Amount (to the nearest rand)" class="form-control" id="amount" min="10.00"
+                   name="amount" required type="number">
+            <span class="input-group-text">.00</span>
+        </div>
+
+        <button class="btn" id="submitButton" type="submit">Transfer</button>
+    </form>
+    <button class="btn">
+        <a href="/dashboard" style="text-decoration: none;
+    color: inherit;">Back to Dashboard</a>
+    </button>
+
+
+    <p class="status" th:if="${status}" th:text="${status}"></p>
+
+</div>
+</body>
+</html>
