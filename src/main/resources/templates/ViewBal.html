@@ -5,6 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Banking App</title>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <!-- Google Font: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e3ecf8; /* Matches the soft blue from the form */
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background-color: #ffffff; /* White for contrast */
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            padding: 20px 30px;
+            text-align: center;
+            width: 70%;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #4a6fa5; /* Matches heading color from form */
+            margin-bottom: 10px;
+        }
+        p {
+            color: #6d7d95; /* Subtle gray-blue for secondary text */
+            font-weight: 300; /* Light font weight */
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #f9fbfe; /* Soft background for the table */
+            border: 1px solid #d1d9e6; /* Light border */
+            font-size: 16px; /* Matches font size in the picture */
+        }
+        table th {
+            background-color: #d7e4f7; /* Light blue header background */
+            color: #6d7d95; /* Darker blue for text */
+            font-weight: 600; /* Bold font for headers */
+            padding: 12px;
+            border: 1px solid #d1d9e6; /* Border for header cells */
+        }
+        table td {
+            padding: 10px;
+            color: #6d7d95; /* Matches text color */
+            text-align: center;
+            border: 1px solid #d1d9e6; /* Border for table cells */
+            font-weight: 400; /* Regular font weight */
+        }
+        table tr:nth-child(even) {
+            background-color: #edf2fa; /* Slightly different row color */
+        }
+        .btn {
+            background-color: #4a6fa5; /* Matches button color */
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .btn:hover {
+            background-color: #6d7d95; /* Darker shade on hover */
+        }
+        .text-center a {
+            background-color: #6d7d95;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            font-weight: 400;
+        }
+        .text-center a:hover {
+            background-color: #6d7d95;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -17,7 +100,7 @@
             <th>Account Number</th>
             <th>Account Holder</th>
             <th>Balance</th>
-            <th>Action</th>
+            <th>View</th>
         </tr>
         </thead>
         <tbody>
@@ -26,16 +109,18 @@
             <td th:text="${user.getUsername()}"></td>
             <td th:text="'R '+ ${account.balance}"></td>
             <td>
-                <form th:action="@{/details}" method="post" style="display:inline;">
+                <form th:action="@{/details}" method="post">
                     <input type="hidden" name="accNo" th:value="${account.accNo}" />
                     <button type="submit" class="btn">View Details</button>
                 </form>
             </td>
         </tr>
         </tbody>
-    </table><br>
-    <a href="/dashboard" style="text-decoration: none;
-    " class="btn">Back</a>
+    </table>
+
+    <div class="text-center">
+        <a href="/dashboard">Go Back</a>
+    </div>
 </div>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.Scoders.BankingApp.controller.auth;
 import com.Scoders.BankingApp.database.AccountDatabase;
 import com.Scoders.BankingApp.database.TransactionDatabase;
 import com.Scoders.BankingApp.database.UserDatabase;
+import com.Scoders.BankingApp.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +17,16 @@ public class AuthenticateController {
 
     Authentication auth = new Authentication();
 @GetMapping ("/")
-    public String index()
+    public String index(HttpSession session)
 {
     UserDatabase.createUserTable();
     AccountDatabase.createAccountTable();
     TransactionDatabase.createTransactionTable();
+    User user = (User) session.getAttribute("currentUser");
+
+    if (user!= null){
+        session.removeAttribute("currentUser");
+    }
     return "index"; // Render index.html
 }
 
