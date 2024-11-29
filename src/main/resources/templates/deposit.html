@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Deposit Money</title>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="transfer.css" rel="stylesheet">
+
+    <style>
+        .centred-text {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+.error-message {
+            color: red;
+            font-weight: bold;
+        }
+.button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+}
+
+    </style>
+</head>
+<body>
+<div class="container mt-5" id="transfer-container">
+    <!-- Centered Text Section -->
+    <div class="centred-text">
+        <h1>Deposit Money into Account</h1>
+        <h3 th:classappend="${isError} ? 'error-message' : ''" th:if="${response}" th:text="${response}"></h3>
+    </div>
+
+    <!-- Form Section -->
+    <form action="/deposit" method="POST">
+        <label class="col-form-label mt-4" for="accNo">Account Number:</label>
+        <input class="form-control" id="accNo" minlength="8" name="accNo" required type="number">
+
+        <label class="col-form-label mt-4" for="amount">Amount to Deposit:</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text">R</span>
+            <input aria-label="Amount (to the nearest rand)" class="form-control" id="amount" min="10.00"
+                   name="amount" required type="number">
+            <span class="input-group-text">.00</span>
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="button-group">
+            <button class="btn btn-primary" type="submit">Deposit</button>
+            <button class="btn btn-secondary" onclick="history.back()" type="button">Go Back</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+.containers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem; /* Adds space between cards */
+    padding: 2rem;
+    flex-direction: row;
+    background:#c4bec0e5;
+  }
+
+  .card {
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
+    background:  #c4bec0e5;
+    max-width: 500px; /* Ensures the card doesn’t get too wide */
+    width: 100%; /* Allows flexibility for different screens */
+    border-radius: 10px;
+    box-shadow: 1px 1px 2rem rgba(0, 0, 0, 0.3);
+    position: relative;
+    padding: 20px;
+    height: 500px;
+  }
+
+  @media (max-width: 768px) {
+    .blog_post {
+      max-width: 45%;
+      overflow: scroll;
+    }
+
+  }
+
+
+  @media (max-width: 480px) {
+    .blog_post {
+      max-width: 100%;
+    }
+  }
+
+
+  .container_copy {
+    padding: 2rem;
+    max-height: 500px;
+    align-items: center;
+    color:white;
+    font-weight: bold;
+  }
+
+
+
+  h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2.5rem;
+    letter-spacing: 0.5px;
+    color: #413b3c;
+  }
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between form elements */
+    margin-top: 20px;
+}
+
+form label {
+    font-size: 1em;
+    margin-bottom: 5px;
+    color:#413b3c ; /* Matches the overall theme */
+}
+
+form input {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.button-container {
+    display: flex; /* Aligns buttons horizontally */
+    gap: 15px; /* Adds space between the buttons */
+    justify-content: center; /* Centers the buttons */
+}
+
+form button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px; /* Space between icon and button text (if any) */
+    background: none; /* Removes background */
+    border: none; /* Removes border */
+    color: #111; /* Icon and text color */
+    font-size: 1.5rem; /* Font size */
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out; /* Smooth transition on hover */
+}
+
+form button:hover {
+    color: #bbdefb; /* Change color on hover */
+    transform: scale(1.1); /* Slightly increase size on hover */
+}
