@@ -14,21 +14,29 @@
         }
 
         .col-md-6 {
-            height: 70vh; /* Adjust height here */
+            height: 50vh; /* Adjust height here */
         }
 
         .logout-button {
             position: absolute;
             top: 20px;
             right: 20px;
-            background-color: #f8f9fa; /* Same background as other buttons */
-            color: #dc3545; /* Text color matches the default theme */
+            background-color: #f8f9fa;
+            color: #dc3545;
             border-color: #dc3545;
         }
 
         .logout-button:hover {
-            background-color: red; /* Change to red when hovered */
-            color: white; /* Ensure text is visible */
+            background-color: red;
+            color: white;
+        }
+        .list-group {
+            height: 100%; /* Take full available height */
+            display: flex;
+            font-size: 1.25rem;
+            font-weight: bold;
+            flex-direction: column;
+            justify-content: space-around; /* Space items evenly */
         }
 
         @keyframes dance {
@@ -48,7 +56,7 @@
 <body class="bg-light">
 
 <!-- Logout Button -->
-<a href="/login" class="btn logout-button d-flex align-items-center">
+<a href="/" class="btn logout-button d-flex align-items-center">
     <i class="fas fa-sign-out-alt me-2"></i> Logout
 </a>
 
