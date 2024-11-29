@@ -4,14 +4,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
+<div class="center-card">
+    <div class="card">
 <div class="container">
-    <h1>Welcome to the BankApp1</h1>
+    <h1>
+        <img src="image/credit.png" alt="Register Icon"style="width: 30px; height: 30px; vertical-align: middle; margin-right: 8px; color:white; ">
+
+        Welcome to the Better Bank!
+    </h1>
     <div class="button-group">
         <a th:href="@{/register}" class="btn">Register</a>
         <a th:href="@{/login}" class="btn">Login</a>
         <a th:href="@{/deposit}" class="btn">Deposit</a>
+    </div>
+</div>
     </div>
 </div>
 </body>
