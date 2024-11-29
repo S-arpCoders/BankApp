@@ -35,15 +35,15 @@
             <select class="form-select" id="fromAccount" name="fromAccount" required>
                 <option selected value="">Select an account</option>
                 <option th:each="account : ${accounts}"
-                        th:text="${account.accNo} + ' - R' + ${account.balance}"
+                        th:text="'Account no.:' + ${account.accNo} + ' - R' + ${account.balance}"
                         th:value="${account.accNo}">
                 </option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="toAccount">To Account</label>
-            <input id="toAccount" name="toAccount" placeholder="Recipient Account Number" required type="number">
-        </div>
+
+        <label class="col-form-label mt-4" for="toAccount">To Account Number:</label>
+        <input class="form-control" id="toAccount" minlength="8" name="toAccount" required type="number">
+
         <label class="col-form-label mt-4" for="amount">Amount to transfer:</label>
         <div class="input-group mb-3">
             <span class="input-group-text">R</span>

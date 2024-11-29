@@ -1,4 +1,5 @@
 .container {
+
      display: flex;
      flex-direction: column; /* Aligns content vertically */
      justify-content: center;
@@ -9,7 +10,14 @@
      box-shadow: 1px 1px 2rem rgba(0, 0, 0, 0.3);
      max-width: 500px;
      width: 2000%;
+     height: 70%;
      text-align: center;
+
+      /* Center the container within its parent */
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
  }
  .centred-text {
              text-align: center;
