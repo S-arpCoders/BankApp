@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Transfer Funds</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <link rel="stylesheet" href="transfer.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
 </head>
 <body>
 <div id="transfer-container" class="container">
@@ -12,8 +11,8 @@
     <!-- Form -->
     <form action="/transfer" method="post" id="transferForm">
         <div class="form-group">
-            <label for="fromAccount">From Account</label>
-            <select id="fromAccount" name="fromAccount" required>
+            <label for="fromAccount" class="form-label mt-4" >From Account</label>
+            <select id="fromAccount" name="fromAccount" class="form-select" required>
                 <option value="" selected>Select an account</option>
                 <option th:each="account : ${accounts}"
                         th:value="${account.accNo}"
