@@ -12,7 +12,7 @@ body {
 
 /* Style for the container */
 .withdraw_container {
-    max-width: 900px; /* Adjust the width for a clean layout */
+    max-width: 900px;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 30px;
@@ -28,12 +28,12 @@ body {
 
 .button-container {
     display: flex;
-    justify-content: space-between; /* Spread buttons apart */
-    gap: 20px; /* Optional: Add consistent spacing between buttons */
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .button-container .btn {
-    flex: 1; /* Optional: Make buttons take equal space */
-    max-width: 150px; /* Optional: Limit button width */
+    flex: 1;
+    max-width: 150px;
 }
 
