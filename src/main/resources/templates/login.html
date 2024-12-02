@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>login</title>
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -17,26 +18,34 @@
 
 <h3 th:text="${response}" ></h3>
 <form action="#" th:action="@{/login}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br>
+   <!-- <label for="username">Username:</label>-->
+    <!--<input type="text" id="username" name="username" required>-->
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+    <label for="username" class="form-label mt-4">Username</label>
+    <input type="text" class="form-control" id="username" name="username" placeholder="Username" autocomplete="off" required>
+    <br>
+    <label for="password" class="form-label mt-4">Password</label>
+    <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" required>
+
+<!--    <label for="password">Password:</label>-->
+<!--    <input type="password" id="password" name="password" required>-->
     <br>
     <div class="button-container">
-    <button type="submit" >
-        <i class="fa fa-sign-in" aria-hidden="true" ></i>
-    </button>
-
-    </div>
-
+        <!-- Login button -->
+        <button type="submit" class="btn">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+            Login
+        </button>
+        <!-- Register button -->
+        <button type="button" class="btn">
+            <a href="/register">
+                <i class="fa fa-user-plus" aria-hidden="true"></i>
+                Register
+            </a>
+        </button>
+</div>
 </form>
-            <button>
-                <a href="/register" style="text-decoration: none;"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
-
-            </button>
-        </div>
+            </div>
     </div>
 </div>
 

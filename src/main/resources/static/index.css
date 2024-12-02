@@ -1,0 +1,29 @@
+/* Center the card in the middle of the page */
+        body {
+                    background: url('image/background.jpg') no-repeat center center fixed; /* Background image */
+                    background-size: cover; /* Make the image cover the whole page */
+                    margin: 0; /* Remove default margin */
+                    font-family: Arial, sans-serif; /* Default font */
+                }
+
+        .center-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full screen height */
+        }
+
+        /* Card styling */
+        .card {
+            padding: 20px;
+            max-width: 500px; /* Restrict maximum width */
+            width: 100%; /* Ensure responsiveness */
+            border: 1px solid #ddd; /* Subtle border for structure */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+        .btn:hover {
+            background-color: #413b3c; /* Change to blue on hover */
+            color: white; /* Ensure text stays visible */
+            transform: scale(1.1); /* Slightly enlarge button */
+        }

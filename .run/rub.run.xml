@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="rub" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.Scoders.BankingApp.BankingAppApplication" />
+    <module name="BankingApp" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

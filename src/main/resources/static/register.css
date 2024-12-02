@@ -6,7 +6,7 @@
     gap: 1rem; /* Adds space between cards */
     padding: 2rem;
     flex-direction: row;
-    background:#c4bec0e5;
+    width:50%;
   }
 
   .card {
@@ -15,7 +15,7 @@
     background:  #c4bec0e5;
     max-width: 500px; /* Ensures the card doesn’t get too wide */
     width: 100%; /* Allows flexibility for different screens */
-    border-radius: 10px;
+   border-radius: 10px;
     box-shadow: 1px 1px 2rem rgba(0, 0, 0, 0.3);
     position: relative;
     padding: 20px;
@@ -70,33 +70,9 @@ form label {
 }
 
 form input {
-    padding: 10px;
+    padding: none;
     border: none;
-    border-radius: 4px;
+    border-radius: 0px;
     font-size: 1em;
 }
 
-.button-container_ {
-    display: flex; /* Aligns buttons horizontally */
-    gap: 15px; /* Adds space between the buttons */
-    justify-content: center; /* Centers the buttons */
-}
-
-form button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px; /* Space between icon and button text (if any) */
-    background: none; /* Removes background */
-    border: none; /* Removes border */
-    color: #111; /* Icon and text color */
-    font-size: 1.5rem; /* Font size */
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out; /* Smooth transition on hover */
-}
-
-form button:hover {
-    color: #bbdefb; /* Change color on hover */
-    transform: scale(1.1); /* Slightly increase size on hover */
-}

@@ -7,52 +7,42 @@
 </head>
 <body>
 
-
 <div class="withdraw_container">
-<form action="/withdraw" method="post">
-    <div class="form-container">
-        <div class="header">
-            <h1>Withdraw Money</h1>
-            <h3 th:text="${response}" ></h3>
-            <p th:text="${message}"></p>
-
+    <form action="/withdraw" method="post">
+        <div class="form-container">
+            <div class="header">
+                <h1>Withdraw Money</h1>
+                <h3 th:text="${response}"></h3>
+                <p th:text="${message}"></p>
+            </div>
         </div>
-    </div>
 
+        <div>
+            <label for="toAccount" class="form-label mt-4">Select Account</label>
+            <select id="toAccount" class="form-select" name="toAccount" >
+                <option value="" disabled selected >Select an account</option>
+                <!-- Dynamically populate the dropdown with user accounts -->
+                <option th:each="account : ${accounts}"
+                        th:text="${account.accNo} + ' - R' + ${account.balance}"
+                        th:value="${account.accNo}"></option>
+            </select><br><br>
+        </div>
 
-    <div>
-        <label for="toAccount" class="form-label mt-4"> Select Account</label>
-        <select class="form-select" id="toAccount" >
-            <  <option value="" disabled selected>Select an account</option>
-            <!-- Dynamically populate the dropdown with user accounts -->
-            <option th:each="account : ${accounts}"
-                    th:text="${account.accNo} + ' - R' + ${account.balance}"
-                    th:value="${account.accNo}"></option>
-        </select><br><br>
-    </div>
+        <label for="balance" class="form_Control">Withdraw Amount:</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text">R</span>
+            <input type="number" id="balance" name="balance" class="form-control" step="0.01" required aria-label="Amount (to the nearest Rand)">
+            <span class="input-group-text">.00</span>
+        </div>
 
-
-
-
-
-
-    <label for="balance" class="form_Control " aria-label="Amount (to the nearest Rand)">Withdraw Amount:</label>
-    <div class="input-group mb-3">
-        <span class="input-group-text">R</span>
-        <input type="number" id ="balance"class="form-control" aria-label="Amount (to the nearest Rand)">
-        <span class="input-group-text">.00</span>
-    </div>
-
-
-
-
-
-    <div class="button-container mt-3">
-        <button type="submit" class="btn btn-primary">Withdraw</button>
-        <a href="/dashboard" class="btn btn-secondary">Back</a>
-    </div>
-</form>
+        <div class="button-container mt-3">
+            <button type="submit" class="btn btn-primary">Withdraw</button>
+            <a href="/dashboard" class="btn btn-secondary">Back</a>
+        </div>
+    </form>
 </div>
+
 <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+
 </body>
 </html>
