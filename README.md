@@ -2,6 +2,20 @@
 
 A secure and user-friendly account management application developed using Java, Spring Boot, Thymeleaf, Bootstrap, Sqlite and Docker. This app allows users to create accounts, manage transactions, and track account activities. It also supports multiple users and session handling using cookies.
 
+## 🤝 Our Team  
+We are six developers with unique strengths and shared goals.  
+
+
+| Name                          | Role                 | GitHub Profile                                         |  
+|-------------------------------|----------------------|-------------------------------------------------------|  
+| **Hlanganani Msawekho**       | Java Developer      | [@Msawekho](https://github.com/Msawekho)             |  
+| **Valerie Tshuma**            | Java Developer       | [@Valerietshuma](https://github.com/Valerietshuma)   |  
+| **Mulamuleli Mammba**         | Java Developer       | [@MulamuMammba](https://github.com/MulamuMammba)     |  
+| **Ntlahla Pikwa**             | Java Developer           | [@Ntlahla80](https://github.com/Ntlahla80)           |  
+| **Tshwaraganang Clement Maimane** | Java Developer       | [@ClementRep](https://github.com/ClementRep)         |  
+| **Simphiwe Mbatha**           | Java Developer         |  [@MbathaSimphiwe](https://github.com/MbathaSimphiwe) |  
+
+---
 ## Features
 
 - **Authentication**: Secure login with username and password.
