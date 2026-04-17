@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transaction History</title>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 30px;
+        }
+        .transaction-deposit {
+            color: #198754;
+            font-weight: bold;
+        }
+        .transaction-withdraw {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .transaction-transfer {
+            color: #0d6efd;
+            font-weight: bold;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .back-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="mb-0"><i class="fas fa-history me-2"></i>Transaction History</h2>
+                        <span th:text="'Welcome, ' + ${user.username}"></span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    
+                    <div th:if="${transactions.isEmpty()}" class="alert alert-info text-center">
+                        <i class="fas fa-info-circle me-2"></i>
+                        No transactions found.
+                    </div>
+                    
+                    <div th:unless="${transactions.isEmpty()}" class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Transaction ID</th>
+                                    <th>Account Number</th>
+                                    <th>Transaction Type</th>
+                                    <th>Amount</th>
+                                    <th>Date & Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="transaction, iterStat : ${transactions}">
+                                    <td th:text="${iterStat.count}"></td>
+                                    <td th:text="${transaction.transId}"></td>
+                                    <td th:text="${transaction.account.accNo}"></td>
+                                    <td>
+                                        <span th:class="'transaction-' + ${transaction.transactionType.toLowerCase()}"
+                                              th:text="${transaction.transactionType}"></span>
+                                    </td>
+                                    <td>
+                                        <span th:if="${transaction.transactionType.equalsIgnoreCase('Deposit')}"
+                                              class="transaction-deposit">
+                                            +R<span th:text="${#numbers.formatDecimal(transaction.amount, 1, 2)}"></span>
+                                        </span>
+                                        <span th:if="${transaction.transactionType.equalsIgnoreCase('Withdraw') || transaction.transactionType.equalsIgnoreCase('Transfer')}"
+                                              th:class="'transaction-' + ${transaction.transactionType.toLowerCase()}">
+                                            -R<span th:text="${#numbers.formatDecimal(transaction.amount, 1, 2)}"></span>
+                                        </span>
+                                    </td>
+                                    <td th:text="${#temporals.format(transaction.dateTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="back-button text-center">
+                        <a href="/dashboard" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

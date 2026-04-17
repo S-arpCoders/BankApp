@@ -1,6 +1,7 @@
 package com.Scoders.BankingApp.database;
 
 import com.Scoders.BankingApp.model.Account;
+import com.Scoders.BankingApp.model.User;
 import com.Scoders.BankingApp.model.transaction;
 
 import java.sql.*;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TransactionDatabase {
 
@@ -138,6 +140,25 @@ public class TransactionDatabase {
         } catch (SQLException e) {
             System.out.println("Error deleting transaction: " + e.getMessage());
         }
+    }
+
+    // Method to get all transactions for a user (all accounts)
+    public static List<transaction> getTransactionsByUser(User user) {
+        List<transaction> allTransactions = new ArrayList<>();
+        
+        // Get all accounts for the user
+        List<Account> accounts = AccountDatabase.getAccountByUserId(user);
+        
+        // Get transactions for each account
+        for (Account account : accounts) {
+            List<transaction> accountTransactions = getTransactionsByAccount(account);
+            allTransactions.addAll(accountTransactions);
+        }
+        
+        // Sort transactions by dateTime descending (newest first)
+        return allTransactions.stream()
+                .sorted((t1, t2) -> t2.getDateTime().compareTo(t1.getDateTime()))
+                .collect(Collectors.toList());
     }
 
 }
