@@ -6,6 +6,21 @@
     <title>Deposit Money</title>
     <link href="bootstrap.min.css" rel="stylesheet">
     <link href="transfer.css" rel="stylesheet">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            var response = /*[[${response}]]*/ null;
+            var errorType = /*[[${errorType}]]*/ null;
+            var hasAccounts = /*[[${hasAccounts}]]*/ null;
+            
+            if (response && errorType === 'noAccount' && hasAccounts === false) {
+                alert(response);
+                // Redirect to create account page
+                window.location.href = '/create';
+            }
+        };
+        /*]]>*/
+    </script>
 
     <style>
         .centred-text {
@@ -35,8 +50,13 @@
 
     <!-- Form Section -->
     <form action="/deposit" method="POST">
-        <label class="col-form-label mt-4" for="accNo">Account Number:</label>
-        <input class="form-control" id="accNo" minlength="8" name="accNo" required type="number">
+        <label class="col-form-label mt-4" for="accNo">Select Account:</label>
+        <select class="form-select" id="accNo" name="accNo" required>
+            <option value="" disabled selected>Select an account</option>
+            <option th:each="account : ${accounts}"
+                    th:text="${account.accNo} + ' - R' + ${account.balance}"
+                    th:value="${account.accNo}"></option>
+        </select>
 
         <label class="col-form-label mt-4" for="amount">Amount to Deposit:</label>
         <div class="input-group mb-3">

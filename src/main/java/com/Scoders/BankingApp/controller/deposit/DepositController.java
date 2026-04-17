@@ -14,7 +14,26 @@ public class DepositController {
 
     // Serve the deposit page (deposit.html)
     @GetMapping("/deposit")
-    public String showDepositForm() {
+    public String showDepositForm(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("currentUser");
+        
+        if (user == null) {
+            return "login";
+        }
+        
+        // Get user's accounts
+        var accounts = AccountDatabase.getAccountByUserId(user);
+        
+        // Check if user has any accounts
+        if (accounts.isEmpty()) {
+            model.addAttribute("response", "You have no accounts. Please create an account first.");
+            model.addAttribute("errorType", "noAccount");
+            model.addAttribute("hasAccounts", false);
+            return "deposit";
+        }
+        
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("hasAccounts", true);
         return "deposit";  // This will render deposit.html from resources/static
     }
 
