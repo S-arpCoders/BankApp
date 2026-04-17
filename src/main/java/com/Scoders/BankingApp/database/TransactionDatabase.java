@@ -1,13 +1,17 @@
 package com.Scoders.BankingApp.database;
 
 import com.Scoders.BankingApp.model.Account;
+import com.Scoders.BankingApp.model.User;
 import com.Scoders.BankingApp.model.transaction;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.time.format.DateTimeParseException;
 
 public class TransactionDatabase {
 
@@ -137,6 +141,158 @@ public class TransactionDatabase {
             System.out.println("Transaction deleted successfully.");
         } catch (SQLException e) {
             System.out.println("Error deleting transaction: " + e.getMessage());
+        }
+    }
+
+    // Method to get all transactions for a specific user
+    public static List<transaction> getTransactionsByUser(User user) {
+        List<transaction> allTransactions = new ArrayList<>();
+        List<Account> userAccounts = AccountDatabase.getAccountByUserId(user);
+
+        for (Account account : userAccounts) {
+            List<transaction> accountTransactions = getTransactionsByAccount(account);
+            allTransactions.addAll(accountTransactions);
+        }
+
+        // Sort transactions by dateTime in descending order (newest first)
+        Collections.sort(allTransactions, new Comparator<transaction>() {
+            @Override
+            public int compare(transaction t1, transaction t2) {
+                return t2.getDateTime().compareTo(t1.getDateTime());
+            }
+        });
+
+        return allTransactions;
+    }
+
+    // Method to get all transactions for a specific user with user details
+    public static List<TransactionDTO> getTransactionDTOsByUser(User user) {
+        List<transaction> transactions = getTransactionsByUser(user);
+        List<TransactionDTO> transactionDTOs = new ArrayList<>();
+
+        for (transaction trans : transactions) {
+            TransactionDTO dto = new TransactionDTO();
+            dto.setTransId(trans.getTransId());
+            dto.setAmount(trans.getAmount());
+            dto.setDateTime(trans.getDateTime());
+            dto.setTransactionType(trans.getTransactionType());
+            
+            if (trans.getAccount() != null) {
+                dto.setAccNo(trans.getAccount().getAccNo());
+                if (trans.getAccount().getUser() != null) {
+                    dto.setUsername(trans.getAccount().getUser().getUsername());
+                    dto.setSurname(trans.getAccount().getUser().getSurname());
+                }
+            }
+            
+            transactionDTOs.add(dto);
+        }
+
+        return transactionDTOs;
+    }
+
+    // DTO class for transaction details
+    public static class TransactionDTO {
+        private Long transId;
+        private Double amount;
+        private LocalDateTime dateTime;
+        private Long accNo;
+        private String username;
+        private String surname;
+        private String transactionType;
+        
+        private static final DateTimeFormatter DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // Getters and Setters
+        public Long getTransId() {
+            return transId;
+        }
+
+        public void setTransId(Long transId) {
+            this.transId = transId;
+        }
+
+        public Double getAmount() {
+            return amount;
+        }
+
+        public void setAmount(Double amount) {
+            this.amount = amount;
+        }
+
+        public LocalDateTime getDateTime() {
+            return dateTime;
+        }
+
+        public void setDateTime(LocalDateTime dateTime) {
+            this.dateTime = dateTime;
+        }
+        
+        public String getFormattedDateTime() {
+            if (dateTime == null) {
+                return "";
+            }
+            return dateTime.format(DISPLAY_FORMATTER);
+        }
+
+        public Long getAccNo() {
+            return accNo;
+        }
+
+        public void setAccNo(Long accNo) {
+            this.accNo = accNo;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getSurname() {
+            return surname;
+        }
+
+        public void setSurname(String surname) {
+            this.surname = surname;
+        }
+        
+        public String getFullName() {
+            StringBuilder fullName = new StringBuilder();
+            if (username != null && !username.isEmpty()) {
+                fullName.append(username);
+            }
+            if (surname != null && !surname.isEmpty()) {
+                if (fullName.length() > 0) {
+                    fullName.append(" ");
+                }
+                fullName.append(surname);
+            }
+            return fullName.toString();
+        }
+
+        public String getTransactionType() {
+            return transactionType;
+        }
+
+        public void setTransactionType(String transactionType) {
+            this.transactionType = transactionType;
+        }
+        
+        public String getFormattedAmount() {
+            if (amount == null) {
+                return "R 0.00";
+            }
+            return String.format("R %.2f", amount);
+        }
+        
+        public boolean isPositiveAmount() {
+            if (transactionType == null) {
+                return false;
+            }
+            return "Deposit".equals(transactionType) || "Transfer-receive".equals(transactionType);
         }
     }
 

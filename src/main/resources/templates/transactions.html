@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e3ecf8;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 30px;
+            text-align: center;
+            width: 90%;
+            max-width: 1200px;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #4a6fa5;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #6d7d95;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #f9fbfe;
+            border: 1px solid #d1d9e6;
+            font-size: 14px;
+        }
+        table th {
+            background-color: #d7e4f7;
+            color: #6d7d95;
+            font-weight: 600;
+            padding: 12px 8px;
+            border: 1px solid #d1d9e6;
+            white-space: nowrap;
+        }
+        table td {
+            padding: 10px 8px;
+            color: #6d7d95;
+            text-align: center;
+            border: 1px solid #d1d9e6;
+            font-weight: 400;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        table tr:nth-child(even) {
+            background-color: #edf2fa;
+        }
+        .transaction-type {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .type-deposit {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .type-withdrawal {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .type-transfer-send {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .type-transfer-receive {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        .text-center a {
+            background-color: #4a6fa5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            font-weight: 400;
+            transition: background-color 0.3s ease;
+        }
+        .text-center a:hover {
+            background-color: #6d7d95;
+        }
+        .no-transactions {
+            color: #6d7d95;
+            font-style: italic;
+            padding: 20px;
+        }
+        .amount-positive {
+            color: #155724;
+            font-weight: 600;
+        }
+        .amount-negative {
+            color: #721c24;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Transaction History</h1>
+    <p>Welcome, <span th:text="${user.username ?: 'Guest'}"></span>! Below is a list of all your transactions.</p>
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Account Number</th>
+                <th>Account Holder</th>
+                <th>Transaction Type</th>
+                <th>Amount</th>
+                <th>Date & Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${transactions != null and !transactions.isEmpty()}" th:each="transaction : ${transactions}">
+                <td th:text="${transaction.transId}">1</td>
+                <td th:text="${transaction.accNo}">12345678</td>
+                <td th:text="${transaction.fullName}">John Doe</td>
+                <td>
+                    <span th:class="'transaction-type ' + 
+                        (${transaction.transactionType.equals('Deposit')} ? 'type-deposit' : 
+                        (${transaction.transactionType.equals('withdrawal')} ? 'type-withdrawal' : 
+                        (${transaction.transactionType.equals('Transfer-send')} ? 'type-transfer-send' : 
+                        'type-transfer-receive')))"
+                          th:text="${transaction.transactionType}">Deposit</span>
+                </td>
+                <td th:class="${transaction.positiveAmount} ? 'amount-positive' : 'amount-negative'"
+                    th:text="${transaction.formattedAmount}">R 100.00</td>
+                <td th:text="${transaction.formattedDateTime}">2024-01-01 12:00:00</td>
+            </tr>
+            <tr th:if="${transactions == null or transactions.isEmpty()}">
+                <td colspan="6" class="no-transactions">No transactions found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center">
+        <a href="/dashboard">Go Back to Dashboard</a>
+    </div>
+</div>
+</body>
+</html>
