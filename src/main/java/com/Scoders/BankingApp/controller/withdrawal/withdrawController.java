@@ -48,18 +48,38 @@ public class withdrawController {
     // Handle the withdrawal process
     @PostMapping("/withdraw")
     public String withdraw(HttpSession session,
-                           @RequestParam("toAccount") long accountNo,
+                           @RequestParam(value = "toAccount", required = false) Long accountNo,
             @RequestParam("balance") double balance,
             Model model)
      {
-
-         Account account = AccountDatabase.getAccountByAccNo(accountNo);
          User user = (User) session.getAttribute("currentUser");
          List<Account> accounts = AccountDatabase.getAccountByUserId(user);
 
          // Add user and account data to the model
          model.addAttribute("user", user);
          model.addAttribute("accounts", accounts);
+
+         // Check if account is selected
+         if (accountNo == null) {
+             model.addAttribute("response", "Please select an account to withdraw from.");
+             model.addAttribute("errorType", "noAccount");
+             return "withdraw";
+         }
+
+         Account account = AccountDatabase.getAccountByAccNo(accountNo);
+
+         // Check if account exists
+         if (account == null) {
+             model.addAttribute("response", "Account not found!");
+             return "withdraw";
+         }
+
+         // Check if balance is zero
+         if (account.getBalance() == 0) {
+             model.addAttribute("response", "Your account balance is R0.00. Cannot withdraw from an empty account.");
+             model.addAttribute("errorType", "zeroBalance");
+             return "withdraw";
+         }
 
          if (account.getBalance() < balance) {
              model.addAttribute("response","Insufficient funds in the sender's account.");

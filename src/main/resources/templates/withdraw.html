@@ -4,6 +4,18 @@
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="withdrawal.css">
     <title>Withdraw Money</title>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            var response = /*[[${response}]]*/ null;
+            var errorType = /*[[${errorType}]]*/ null;
+            
+            if (response && errorType) {
+                alert(response);
+            }
+        };
+        /*]]>*/
+    </script>
 </head>
 <body>
 
