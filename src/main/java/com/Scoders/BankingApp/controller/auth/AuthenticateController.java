@@ -1,7 +1,6 @@
 package com.Scoders.BankingApp.controller.auth;
 
 import com.Scoders.BankingApp.database.AccountDatabase;
-import com.Scoders.BankingApp.database.SupportQuestionDatabase;
 import com.Scoders.BankingApp.database.TransactionDatabase;
 import com.Scoders.BankingApp.database.UserDatabase;
 import com.Scoders.BankingApp.model.User;
@@ -23,7 +22,6 @@ public class AuthenticateController {
     UserDatabase.createUserTable();
     AccountDatabase.createAccountTable();
     TransactionDatabase.createTransactionTable();
-    SupportQuestionDatabase.createSupportQuestionTable();
     User user = (User) session.getAttribute("currentUser");
 
     if (user!= null){

@@ -34,19 +34,43 @@ public class SupportQuestionDatabase {
     }
 
     public static void insertSupportQuestion(Long userId, String question) {
-        String insertSQL = "INSERT INTO SupportQuestion (userId, question, createdAt, status) VALUES (?, ?, ?, ?)";
+        insertSupportQuestionWithAnswer(userId, question, null);
+    }
+
+    public static Long insertSupportQuestionWithAnswer(Long userId, String question, String answer) {
+        String insertSQL = "INSERT INTO SupportQuestion (userId, question, answer, createdAt, answeredAt, status) VALUES (?, ?, ?, ?, ?, ?)";
+        Long generatedId = null;
 
         try (Connection conn = DriverManager.getConnection(DATABASE_URL);
-             PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+             PreparedStatement pstmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setLong(1, userId);
             pstmt.setString(2, question);
-            pstmt.setString(3, LocalDateTime.now().format(ISO_FORMATTER));
-            pstmt.setString(4, "PENDING");
+            
+            if (answer != null && !answer.isEmpty()) {
+                pstmt.setString(3, answer);
+                pstmt.setString(4, LocalDateTime.now().format(ISO_FORMATTER));
+                pstmt.setString(5, LocalDateTime.now().format(ISO_FORMATTER));
+                pstmt.setString(6, "ANSWERED");
+            } else {
+                pstmt.setNull(3, Types.VARCHAR);
+                pstmt.setString(4, LocalDateTime.now().format(ISO_FORMATTER));
+                pstmt.setNull(5, Types.VARCHAR);
+                pstmt.setString(6, "PENDING");
+            }
+            
             pstmt.executeUpdate();
-            System.out.println("Support question inserted successfully.");
+            
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                generatedId = rs.getLong(1);
+            }
+            
+            System.out.println("Support question inserted successfully. ID: " + generatedId);
         } catch (SQLException e) {
             System.out.println("Error inserting support question: " + e.getMessage());
         }
+
+        return generatedId;
     }
 
     public static SupportQuestion getSupportQuestionById(Long id) {
@@ -69,7 +93,7 @@ public class SupportQuestionDatabase {
     }
 
     public static List<SupportQuestion> getSupportQuestionsByUserId(Long userId) {
-        String selectSQL = "SELECT * FROM SupportQuestion WHERE userId = ? ORDER BY createdAt DESC";
+        String selectSQL = "SELECT * FROM SupportQuestion WHERE userId = ? ORDER BY createdAt ASC";
         List<SupportQuestion> questions = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(DATABASE_URL);
