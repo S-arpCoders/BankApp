@@ -9,12 +9,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class DepositController {
 
     // Serve the deposit page (deposit.html)
     @GetMapping("/deposit")
-    public String showDepositForm() {
+    public String showDepositForm(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("currentUser");
+        
+        if (user == null) {
+            model.addAttribute("errorMessage", "User not found!");
+            return "login";
+        }
+        
+        List<Account> accounts = AccountDatabase.getAccountByUserId(user);
+        model.addAttribute("accounts", accounts);
+        model.addAttribute("user", user);
+        
+        if (accounts.isEmpty()) {
+            model.addAttribute("noAccounts", true);
+        }
+        
         return "deposit";  // This will render deposit.html from resources/static
     }
 
