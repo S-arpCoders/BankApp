@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理财行情 - BankingApp</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .page-title {
+            color: #333;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .update-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .main-container {
+            padding: 30px 0;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .stock-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .gold-icon {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: white;
+        }
+
+        .future-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+
+        .market-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .market-row {
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .market-row:hover {
+            background: #e9ecef;
+            transform: scale(1.01);
+        }
+
+        .market-row td {
+            padding: 15px;
+            border: none;
+        }
+
+        .market-row td:first-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+        .market-row td:last-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+        .symbol {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .name {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .change-positive {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .change-negative {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .change-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .badge-positive {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .badge-negative {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .high-low {
+            display: flex;
+            gap: 10px;
+        }
+
+        .high-label {
+            color: #28a745;
+            font-size: 14px;
+        }
+
+        .low-label {
+            color: #dc3545;
+            font-size: 14px;
+        }
+
+        .mock-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-top: 20px;
+            color: #856404;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .live-indicator {
+            width: 10px;
+            height: 10px;
+            background: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            .section-card {
+                padding: 15px;
+            }
+            
+            .market-table {
+                font-size: 14px;
+            }
+            
+            .price {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/" class="back-btn">
+                <i class="fas fa-arrow-left me-2"></i>返回首页
+            </a>
+            <h2 class="page-title">
+                <span class="live-indicator"></span>
+                理财行情中心
+            </h2>
+            <div class="update-info">
+                <i class="fas fa-clock me-2"></i>
+                <span th:text="${lastUpdateTime}">--</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container main-container">
+
+    <!-- Mock Data Warning -->
+    <div th:if="${isUsingMockData}" class="mock-warning">
+        <i class="fas fa-info-circle me-2"></i>
+        当前使用模拟数据展示。如需获取真实行情数据，请在 application.properties 中配置 finance.alpha.vantage.api.key。
+    </div>
+
+    <!-- Stocks Section -->
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon stock-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="section-title">股票行情</h3>
+        </div>
+        <table class="market-table">
+            <thead>
+                <tr style="background: transparent;">
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">股票</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">当前价格</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">涨跌</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">最高/最低</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="stock : ${stocks}" class="market-row">
+                    <td>
+                        <div class="symbol" th:text="${stock.symbol}">AAPL</div>
+                        <div class="name" th:text="${stock.name}">苹果公司</div>
+                    </td>
+                    <td class="price" th:text="'$' + ${#numbers.formatDecimal(stock.price, 1, 2)}">$175.50</td>
+                    <td>
+                        <span th:class="${stock.positive} ? 'change-positive' : 'change-negative'"
+                              th:text="${stock.positive}">
+                            <span th:if="${stock.positive}"><i class="fas fa-caret-up"></i></span>
+                            <span th:unless="${stock.positive}"><i class="fas fa-caret-down"></i></span>
+                            <span th:text="${#numbers.formatDecimal(stock.change, 1, 2)}">+2.35</span>
+                        </span>
+                        <span th:class="${stock.positive} ? 'badge-positive change-badge' : 'badge-negative change-badge'"
+                              th:text="${#numbers.formatDecimal(stock.changePercent, 1, 2) + '%'">+1.35%</span>
+                    </td>
+                    <td>
+                        <div class="high-low">
+                            <span class="high-label"><i class="fas fa-arrow-up me-1"></i>高: <span th:text="'$' + ${#numbers.formatDecimal(stock.high, 1, 2)}">$178.00</span></span>
+                            <span class="low-label"><i class="fas fa-arrow-down me-1"></i>低: <span th:text="'$' + ${#numbers.formatDecimal(stock.low, 1, 2)}">$173.50</span></span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Gold Section -->
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon gold-icon">
+                <i class="fas fa-coins"></i>
+            </div>
+            <h3 class="section-title">黄金行情</h3>
+        </div>
+        <table class="market-table">
+            <thead>
+                <tr style="background: transparent;">
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">品种</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">当前价格</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">涨跌</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">最高/最低</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="gold : ${goldData}" class="market-row">
+                    <td>
+                        <div class="symbol" th:text="${gold.symbol}">XAU</div>
+                        <div class="name" th:text="${gold.name}">黄金现货</div>
+                    </td>
+                    <td class="price" th:text="'$' + ${#numbers.formatDecimal(gold.price, 1, 2)}">$2350.50</td>
+                    <td>
+                        <span th:class="${gold.positive} ? 'change-positive' : 'change-negative'"
+                              th:text="${gold.positive}">
+                            <span th:if="${gold.positive}"><i class="fas fa-caret-up"></i></span>
+                            <span th:unless="${gold.positive}"><i class="fas fa-caret-down"></i></span>
+                            <span th:text="${#numbers.formatDecimal(gold.change, 1, 2)}">+15.30</span>
+                        </span>
+                        <span th:class="${gold.positive} ? 'badge-positive change-badge' : 'badge-negative change-badge'"
+                              th:text="${#numbers.formatDecimal(gold.changePercent, 1, 2) + '%'">+0.65%</span>
+                    </td>
+                    <td>
+                        <div class="high-low">
+                            <span class="high-label"><i class="fas fa-arrow-up me-1"></i>高: <span th:text="'$' + ${#numbers.formatDecimal(gold.high, 1, 2)}">$2365.00</span></span>
+                            <span class="low-label"><i class="fas fa-arrow-down me-1"></i>低: <span th:text="'$' + ${#numbers.formatDecimal(gold.low, 1, 2)}">$2335.00</span></span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Futures Section -->
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon future-icon">
+                <i class="fas fa-industry"></i>
+            </div>
+            <h3 class="section-title">期货行情</h3>
+        </div>
+        <table class="market-table">
+            <thead>
+                <tr style="background: transparent;">
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">期货品种</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">当前价格</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">涨跌</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">最高/最低</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="future : ${futures}" class="market-row">
+                    <td>
+                        <div class="symbol" th:text="${future.symbol}">CL</div>
+                        <div class="name" th:text="${future.name}">原油期货</div>
+                    </td>
+                    <td class="price" th:text="'$' + ${#numbers.formatDecimal(future.price, 1, 2)}">$80.50</td>
+                    <td>
+                        <span th:class="${future.positive} ? 'change-positive' : 'change-negative'"
+                              th:text="${future.positive}">
+                            <span th:if="${future.positive}"><i class="fas fa-caret-up"></i></span>
+                            <span th:unless="${future.positive}"><i class="fas fa-caret-down"></i></span>
+                            <span th:text="${#numbers.formatDecimal(future.change, 1, 2)}">+1.20</span>
+                        </span>
+                        <span th:class="${future.positive} ? 'badge-positive change-badge' : 'badge-negative change-badge'"
+                              th:text="${#numbers.formatDecimal(future.changePercent, 1, 2) + '%'">+1.50%</span>
+                    </td>
+                    <td>
+                        <div class="high-low">
+                            <span class="high-label"><i class="fas fa-arrow-up me-1"></i>高: <span th:text="'$' + ${#numbers.formatDecimal(future.high, 1, 2)}">$82.00</span></span>
+                            <span class="low-label"><i class="fas fa-arrow-down me-1"></i>低: <span th:text="'$' + ${#numbers.formatDecimal(future.low, 1, 2)}">$79.50</span></span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
