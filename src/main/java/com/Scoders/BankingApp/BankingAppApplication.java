@@ -1,6 +1,8 @@
 package com.Scoders.BankingApp;
 
 import com.Scoders.BankingApp.database.AccountDatabasedummy;
+import com.Scoders.BankingApp.database.FAQDataInitializer;
+import com.Scoders.BankingApp.database.SupportQuestionDatabase;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +21,12 @@ public class BankingAppApplication {
 		return args -> {
 			// Create account table and insert sample accounts when the app starts
 			AccountDatabasedummy.createAccountTable();
+			
+			// Create support question table
+			SupportQuestionDatabase.createSupportQuestionTable();
+			
+			// Initialize FAQ data for smart auto-reply
+			FAQDataInitializer.initializeFAQData();
 		};
 	}
 }
