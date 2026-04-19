@@ -3,10 +3,59 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="index.css">
+    <style>
+        .finance-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .finance-link:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.2);
+            }
+        }
+    </style>
 </head>
 <body>
+
+<a href="/finance" class="finance-link">
+    <span class="live-dot"></span>
+    <i class="fas fa-chart-line me-2"></i>理财行情
+</a>
+
 <div class="center-card">
     <div class="card">
 <div class="container">
@@ -19,6 +68,7 @@
         <a th:href="@{/register}" class="btn">Register</a>
         <a th:href="@{/login}" class="btn">Login</a>
         <a th:href="@{/deposit}" class="btn">Deposit</a>
+        <a th:href="@{/support}" class="btn">联系客服</a>
     </div>
 </div>
     </div>
