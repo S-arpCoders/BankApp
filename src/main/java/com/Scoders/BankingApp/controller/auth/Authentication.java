@@ -2,6 +2,7 @@ package com.Scoders.BankingApp.controller.auth;
 
 import com.Scoders.BankingApp.database.UserDatabase;
 import com.Scoders.BankingApp.model.User;
+import com.Scoders.BankingApp.security.PasswordEncoder;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
@@ -21,7 +22,7 @@ public class Authentication {
 
             return "login";
 
-        } else if (user.getUsername().equals(username) && user.getPassword().equals(password)){
+        } else if (user.getUsername().equals(username) && PasswordEncoder.matches(password, user.getPassword())){
             session.setAttribute("currentUser",user); //cookies
 
             model.addAttribute("user",user);
