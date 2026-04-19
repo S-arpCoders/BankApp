@@ -4,6 +4,12 @@
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="withdrawal.css">
     <title>Withdraw Money</title>
+    <style>
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -12,14 +18,14 @@
         <div class="form-container">
             <div class="header">
                 <h1>Withdraw Money</h1>
-                <h3 th:text="${response}"></h3>
+                <h3 th:classappend="${isError} ? 'error-message' : ''" th:text="${response}"></h3>
                 <p th:text="${message}"></p>
             </div>
         </div>
 
         <div>
             <label for="toAccount" class="form-label mt-4">Select Account</label>
-            <select id="toAccount" class="form-select" name="toAccount" >
+            <select id="toAccount" class="form-select" name="toAccount" required>
                 <option value="" disabled selected >Select an account</option>
                 <!-- Dynamically populate the dropdown with user accounts -->
                 <option th:each="account : ${accounts}"
