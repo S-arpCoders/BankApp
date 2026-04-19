@@ -14,18 +14,31 @@ public class AccountDatabase {
 
     private static final String DATABASE_URL = "jdbc:sqlite:bank.db"; // The SQLite database file
 
+    public static final String TYPE_SAVINGS = "Savings";
+    public static final String TYPE_CURRENT = "Current";
+    public static final String TYPE_STOCK = "Stock";
+
     // Method to create the Account table
     public static void createAccountTable() {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS Account ("
                 + "accNo TEXT PRIMARY KEY CHECK(length(accNo) = 8), "
                 + "user_id INTEGER, "
                 + "balance DOUBLE, "
+                + "accountType TEXT DEFAULT 'Savings', "
                 + "FOREIGN KEY(user_id) REFERENCES User(id))";
 
         try (Connection conn = DriverManager.getConnection(DATABASE_URL);
              Statement stmt = conn.createStatement()) {
             stmt.execute(createTableSQL);
             System.out.println("Account table created or already exists.");
+            
+            try {
+                String alterTableSQL = "ALTER TABLE Account ADD COLUMN accountType TEXT DEFAULT 'Savings'";
+                stmt.execute(alterTableSQL);
+                System.out.println("Account table updated with accountType column.");
+            } catch (SQLException e) {
+                System.out.println("accountType column may already exist: " + e.getMessage());
+            }
         } catch (SQLException e) {
             System.out.println("Error creating table: " + e.getMessage());
         }
@@ -33,20 +46,25 @@ public class AccountDatabase {
 
     // Method to insert an account into the table
     public static void insertAccount(Long userId, Double balance) {
-        String insertSQL = "INSERT INTO Account (accNo, user_id, balance) VALUES (?, ?, ?)";
+        insertAccount(userId, balance, TYPE_SAVINGS);
+    }
+    
+    // Method to insert an account with specific account type
+    public static void insertAccount(Long userId, Double balance, String accountType) {
+        String insertSQL = "INSERT INTO Account (accNo, user_id, balance, accountType) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
 
-            // Generate a unique 8-digit account number
             String accNo = generateAccountNumber();
 
             pstmt.setString(1, accNo);
             pstmt.setLong(2, userId);
             pstmt.setDouble(3, balance);
+            pstmt.setString(4, accountType != null ? accountType : TYPE_SAVINGS);
             pstmt.executeUpdate();
 
-            System.out.println("Account inserted successfully with accNo: " + accNo);
+            System.out.println("Account inserted successfully with accNo: " + accNo + ", type: " + accountType);
         } catch (SQLException e) {
             System.out.println("Error inserting account: " + e.getMessage());
         }
@@ -71,14 +89,19 @@ public class AccountDatabase {
                 Long id = rs.getLong("accNo");
                 Long userId = rs.getLong("user_id");
                 Double balance = rs.getDouble("balance");
+                String accountType = rs.getString("accountType");
 
                 account = new Account();
                 account.setAccNo(id);
                 account.setBalance(balance);
+                if (accountType != null) {
+                    account.setAccountType(accountType);
+                } else {
+                    account.setAccountType(TYPE_SAVINGS);
+                }
 
-                // Now fetch the user from the database based on userId
-                User user = getUserById(userId); // Call the method to get User by ID
-                account.setUser(user); // Set the full User object
+                User user = getUserById(userId);
+                account.setUser(user);
 
             }
         } catch (SQLException e) {
@@ -99,16 +122,39 @@ public class AccountDatabase {
             while (rs.next()) {
                 Long AccNo = rs.getLong("accNo");
                 Double balance = rs.getDouble("balance");
+                String accountType = rs.getString("accountType");
+                if (accountType == null) {
+                    accountType = TYPE_SAVINGS;
+                }
 
-                account.add(new Account(AccNo,user,balance));
-
-
+                account.add(new Account(AccNo, user, balance, accountType));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving account: " + e.getMessage());
         }
 
         return account;
+    }
+    
+    public static Account getStockAccountByUser(User user) {
+        List<Account> accounts = getAccountByUserId(user);
+        for (Account acc : accounts) {
+            if (TYPE_STOCK.equals(acc.getAccountType())) {
+                return acc;
+            }
+        }
+        return null;
+    }
+    
+    public static List<Account> getNonStockAccountsByUser(User user) {
+        List<Account> accounts = getAccountByUserId(user);
+        List<Account> nonStockAccounts = new ArrayList<>();
+        for (Account acc : accounts) {
+            if (!TYPE_STOCK.equals(acc.getAccountType())) {
+                nonStockAccounts.add(acc);
+            }
+        }
+        return nonStockAccounts;
     }
 
     // Method to update the balance of an account

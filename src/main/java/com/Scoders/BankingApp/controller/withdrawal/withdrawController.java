@@ -48,12 +48,11 @@ public class withdrawController {
     // Handle the withdrawal process
     @PostMapping("/withdraw")
     public String withdraw(HttpSession session,
-                           @RequestParam("toAccount") long accountNo,
+                           @RequestParam(value = "toAccount", required = false) Long accountNo,
             @RequestParam("balance") double balance,
             Model model)
      {
 
-         Account account = AccountDatabase.getAccountByAccNo(accountNo);
          User user = (User) session.getAttribute("currentUser");
          List<Account> accounts = AccountDatabase.getAccountByUserId(user);
 
@@ -61,12 +60,37 @@ public class withdrawController {
          model.addAttribute("user", user);
          model.addAttribute("accounts", accounts);
 
+         // Check if no account is selected
+         if (accountNo == null) {
+             model.addAttribute("response", "Please select an account first.");
+             model.addAttribute("isError", true);
+             return "withdraw";
+         }
+
+         Account account = AccountDatabase.getAccountByAccNo(accountNo);
+
+         // Check if account exists
+         if (account == null) {
+             model.addAttribute("response", "Account not found.");
+             model.addAttribute("isError", true);
+             return "withdraw";
+         }
+
+         // Check if balance is 0
+         if (account.getBalance() == 0) {
+             model.addAttribute("response", "Your account balance is R0.00. No withdrawal possible.");
+             model.addAttribute("isError", true);
+             return "withdraw";
+         }
+
          if (account.getBalance() < balance) {
              model.addAttribute("response","Insufficient funds in the sender's account.");
+             model.addAttribute("isError", true);
              return"withdraw";
          }
          if (balance < 10) {
              model.addAttribute("response","Minimum withdrawal amount is R10.");
+             model.addAttribute("isError", true);
              return"withdraw";
          }
 
