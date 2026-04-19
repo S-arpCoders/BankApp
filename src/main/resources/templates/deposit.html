@@ -33,10 +33,21 @@
         <h3 th:classappend="${isError} ? 'error-message' : ''" th:if="${response}" th:text="${response}"></h3>
     </div>
 
-    <!-- Form Section -->
-    <form action="/deposit" method="POST">
-        <label class="col-form-label mt-4" for="accNo">Account Number:</label>
-        <input class="form-control" id="accNo" minlength="8" name="accNo" required type="number">
+    <!-- No Accounts Message Section -->
+    <div th:if="${noAccounts}" class="alert alert-warning text-center" role="alert">
+        <h4>You don't have any accounts yet!</h4>
+        <p>Please create an account first before making a deposit.</p>
+        <a href="/create" class="btn btn-primary mt-2">Create Account</a>
+    </div>
+
+    <!-- Form Section - Only show if user has accounts -->
+    <form action="/deposit" method="POST" th:unless="${noAccounts}">
+        <label class="col-form-label mt-4" for="accNo">Select Account:</label>
+        <select class="form-control" id="accNo" name="accNo" required>
+            <option value="">-- Select an account --</option>
+            <option th:each="account : ${accounts}" th:value="${account.accNo}" 
+                    th:text="'Account: ' + ${account.accNo} + ' (Balance: R' + ${account.balance} + ')'"></option>
+        </select>
 
         <label class="col-form-label mt-4" for="amount">Amount to Deposit:</label>
         <div class="input-group mb-3">

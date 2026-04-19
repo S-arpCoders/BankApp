@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系客服</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: url('image/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        .center-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .main-card {
+            background: rgba(196, 190, 192, 0.95);
+            border-radius: 10px;
+            box-shadow: 1px 1px 2rem rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .card-header {
+            background: rgba(65, 59, 60, 0.95);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px 10px 0 0;
+            margin: -30px -30px 30px -30px;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .card-header h3 i {
+            margin-right: 10px;
+        }
+
+        .icon-large {
+            font-size: 5rem;
+            color: #413b3c;
+            margin-bottom: 20px;
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(65, 59, 60, 0.2);
+        }
+
+        .message-box h3 {
+            color: #413b3c;
+            margin-bottom: 10px;
+        }
+
+        .message-box p {
+            color: #666;
+            margin: 0;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-custom {
+            text-decoration: none;
+            padding: 12px 24px;
+            background: #413b3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-custom:hover {
+            background: rgba(65, 59, 60, 0.8);
+            color: white;
+            text-decoration: none;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background: rgba(65, 59, 60, 0.6);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(65, 59, 60, 0.7);
+        }
+    </style>
+</head>
+<body>
+
+<div class="center-card">
+    <div class="main-card">
+        <div class="card-header">
+            <h3>
+                <i class="fas fa-headset"></i>
+                在线客服
+            </h3>
+        </div>
+
+        <div class="icon-large">
+            <i class="fas fa-user-lock"></i>
+        </div>
+
+        <div class="message-box">
+            <h3 th:text="${message}">请先登录后再联系客服</h3>
+            <p>您需要登录账户后才能使用客服支持功能</p>
+        </div>
+
+        <div class="button-group">
+            <a th:href="@{/login}" class="btn-custom">
+                <i class="fas fa-sign-in-alt"></i> 立即登录
+            </a>
+            <a th:href="@{/}" class="btn-custom btn-secondary">
+                <i class="fas fa-home"></i> 返回首页
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
