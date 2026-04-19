@@ -17,6 +17,8 @@ public class    Account {
     private User user;
     
     private Double balance;
+    
+    private String accountType;
 
     public Account() {
     }
@@ -25,6 +27,14 @@ public class    Account {
         this.accNo = accNo;
         this.user = user;
         this.balance = balance;
+        this.accountType = "Savings";
+    }
+    
+    public Account(Long accNo, User user, Double balance, String accountType) {
+        this.accNo = accNo;
+        this.user = user;
+        this.balance = balance;
+        this.accountType = accountType;
     }
 
     public Long getAccNo() {
@@ -49,5 +59,28 @@ public class    Account {
 
     public void setBalance(Double balance) {
         this.balance = balance;
+    }
+    
+    public String getAccountType() {
+        return accountType;
+    }
+    
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+    
+    public boolean isStockAccount() {
+        return "Stock".equals(accountType);
+    }
+    
+    public String getAccountTypeDisplayName() {
+        if (accountType == null) {
+            return "Savings";
+        }
+        return switch (accountType) {
+            case "Stock" -> "Stock Account";
+            case "Current" -> "Current Account";
+            default -> "Savings Account";
+        };
     }
 }
