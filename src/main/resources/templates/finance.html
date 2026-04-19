@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理财行情 - BankingApp</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .page-title {
+            color: #333;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .update-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .main-container {
+            padding: 30px 0;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .stock-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .gold-icon {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: white;
+        }
+
+        .future-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .account-icon {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .trade-icon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+
+        .market-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .market-row {
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .market-row:hover {
+            background: #e9ecef;
+            transform: scale(1.01);
+        }
+
+        .market-row td {
+            padding: 15px;
+            border: none;
+        }
+
+        .market-row td:first-child {
+            border-radius: 15px 0 0 15px;
+        }
+
+        .market-row td:last-child {
+            border-radius: 0 15px 15px 0;
+        }
+
+        .symbol {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .name {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .change-positive {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .change-negative {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .change-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .badge-positive {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .badge-negative {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .high-low {
+            display: flex;
+            gap: 10px;
+        }
+
+        .high-label {
+            color: #28a745;
+            font-size: 14px;
+        }
+
+        .low-label {
+            color: #dc3545;
+            font-size: 14px;
+        }
+
+        .mock-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-top: 20px;
+            color: #856404;
+        }
+
+        .alert {
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid #28a745;
+            color: #155724;
+        }
+
+        .alert-error {
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid #dc3545;
+            color: #721c24;
+        }
+
+        .create-account-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .create-account-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(17, 153, 142, 0.4);
+        }
+
+        .account-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .account-info h4 {
+            margin: 0 0 10px 0;
+            font-weight: bold;
+        }
+
+        .account-info .balance {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .account-info .account-no {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 12px 15px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sell {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-buy:hover, .btn-sell:hover {
+            transform: translateY(-2px);
+        }
+
+        .trade-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 5px;
+        }
+
+        .trade-row {
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .trade-row td {
+            padding: 12px;
+            border: none;
+        }
+
+        .trade-row td:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+
+        .trade-row td:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        .trade-type-buy {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .trade-type-sell {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .live-indicator {
+            width: 10px;
+            height: 10px;
+            background: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+
+        .arrow-up {
+            color: #28a745;
+        }
+
+        .arrow-down {
+            color: #dc3545;
+        }
+
+        .action-btn {
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .section-card {
+                padding: 15px;
+            }
+            
+            .market-table {
+                font-size: 14px;
+            }
+            
+            .price {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="container">
+        <div class="header-content">
+            <a href="/dashboard" class="back-btn">
+                <i class="fas fa-arrow-left me-2"></i>返回首页
+            </a>
+            <h2 class="page-title">
+                <span class="live-indicator"></span>
+                理财行情中心
+            </h2>
+            <div class="update-info">
+                <i class="fas fa-clock me-2"></i>
+                <span th:text="${lastUpdateTime}">--</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container main-container">
+
+    <div th:if="${isUsingMockData}" class="mock-warning">
+        <i class="fas fa-info-circle me-2"></i>
+        当前使用模拟数据展示。如需获取真实行情数据，请在 application.properties 中配置 finance.alpha.vantage.api.key。
+    </div>
+
+    <div th:if="${param.successMessage != null}" class="alert alert-success">
+        <i class="fas fa-check-circle me-2"></i>
+        <span th:text="${param.successMessage}">操作成功</span>
+    </div>
+
+    <div th:if="${param.errorMessage != null}" class="alert alert-error">
+        <i class="fas fa-exclamation-circle me-2"></i>
+        <span th:text="${param.errorMessage}">操作失败</span>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon account-icon">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <h3 class="section-title">股票账户管理</h3>
+        </div>
+
+        <div th:unless="${hasStockAccount}">
+            <p class="mb-4">您还没有股票账户，点击下方按钮一键创建股票账户开始交易。</p>
+            <form method="post" action="/finance/create-stock-account">
+                <button type="submit" class="create-account-btn">
+                    <i class="fas fa-plus-circle me-2"></i>一键创建股票账户
+                </button>
+            </form>
+        </div>
+
+        <div th:if="${hasStockAccount}">
+            <div class="account-info">
+                <h4><i class="fas fa-chart-line me-2"></i>Stock Account</h4>
+                <div class="balance" th:text="'$' + ${#numbers.formatDecimal(stockAccount.balance, 1, 2)}">$0.00</div>
+                <div class="account-no">账号: <span th:text="${stockAccount.accNo}">--</span></div>
+            </div>
+
+            <div th:if="${hasOtherAccounts}">
+                <h5 class="mb-3"><i class="fas fa-exchange-alt me-2"></i>从其他账户转账到股票账户</h5>
+                <form method="post" action="/finance/transfer-to-stock">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">选择转出账户</label>
+                                <select class="form-control" name="fromAccount" required>
+                                    <option th:each="account : ${otherAccounts}" 
+                                            th:value="${account.accNo}"
+                                            th:text="${account.accountTypeDisplayName + ' - ' + #numbers.formatDecimal(account.balance, 1, 2)}">
+                                        账户
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">转账金额</label>
+                                <input type="number" class="form-control" name="amount" min="1" step="0.01" placeholder="输入金额" required>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i>转账
+                    </button>
+                </form>
+            </div>
+            <div th:unless="${hasOtherAccounts}">
+                <p class="text-muted"><i class="fas fa-info-circle me-2"></i>您没有其他账户可用于转账。</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-card" th:if="${hasStockAccount}">
+        <div class="section-header">
+            <div class="section-icon trade-icon">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <h3 class="section-title">交易历史记录</h3>
+        </div>
+
+        <div th:if="${hasTrades}">
+            <table class="trade-table">
+                <thead>
+                    <tr style="background: transparent;">
+                        <th style="padding: 10px 12px; color: #666; font-weight: 600;">时间</th>
+                        <th style="padding: 10px 12px; color: #666; font-weight: 600;">类型</th>
+                        <th style="padding: 10px 12px; color: #666; font-weight: 600;">资产</th>
+                        <th style="padding: 10px 12px; color: #666; font-weight: 600;">数量</th>
+                        <th style="padding: 10px 12px; color: #666; font-weight: 600;">价格</th>
+                        <th style="padding: 10px 12px; color: #666; font-weight: 600;">总金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="trade : ${trades}" class="trade-row">
+                        <td th:text="${#temporals.format(trade.tradeTime, 'MM-dd HH:mm')}">--</td>
+                        <td>
+                            <span th:if="${trade.buy}" class="trade-type-buy">买入</span>
+                            <span th:unless="${trade.buy}" class="trade-type-sell">卖出</span>
+                        </td>
+                        <td>
+                            <span th:text="${trade.symbol}">--</span>
+                            <span class="name" th:text="'(' + trade.assetName + ')'">(名称)</span>
+                        </td>
+                        <td th:text="${trade.quantity}">--</td>
+                        <td th:text="'$' + ${#numbers.formatDecimal(trade.price, 1, 2)}">$0.00</td>
+                        <td th:text="'$' + ${#numbers.formatDecimal(trade.totalAmount, 1, 2)}">$0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:unless="${hasTrades}">
+            <p class="text-muted"><i class="fas fa-info-circle me-2"></i>暂无交易记录。</p>
+        </div>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon stock-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="section-title">股票行情</h3>
+        </div>
+        <table class="market-table">
+            <thead>
+                <tr style="background: transparent;">
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">股票</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">当前价格</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">涨跌</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">最高/最低</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="stock : ${stocks}" class="market-row">
+                    <td>
+                        <div class="symbol" th:text="${stock.symbol}">AAPL</div>
+                        <div class="name" th:text="${stock.name}">苹果公司</div>
+                    </td>
+                    <td class="price" th:text="'$' + ${#numbers.formatDecimal(stock.price, 1, 2)}">$175.50</td>
+                    <td>
+                        <span th:class="${stock.positive ? 'change-positive' : 'change-negative'}">
+                            <i th:if="${stock.positive}" class="fas fa-caret-up arrow-up"></i>
+                            <i th:unless="${stock.positive}" class="fas fa-caret-down arrow-down"></i>
+                            <span th:text="${#numbers.formatDecimal(stock.change, 1, 2)}">+2.35</span>
+                        </span>
+                        <span th:class="${stock.positive ? 'badge-positive change-badge' : 'badge-negative change-badge'}">
+                            <span th:text="${#numbers.formatDecimal(stock.changePercent, 1, 2)}">+1.35</span>%
+                        </span>
+                    </td>
+                    <td>
+                        <div class="high-low">
+                            <span class="high-label"><i class="fas fa-arrow-up me-1"></i>高: <span th:text="'$' + ${#numbers.formatDecimal(stock.high, 1, 2)}">$178.00</span></span>
+                            <span class="low-label"><i class="fas fa-arrow-down me-1"></i>低: <span th:text="'$' + ${#numbers.formatDecimal(stock.low, 1, 2)}">$173.50</span></span>
+                        </div>
+                    </td>
+                    <td th:if="${hasStockAccount}">
+                        <button class="action-btn btn-buy" 
+                                th:onclick="'openTradeModal(\'' + ${stock.symbol} + '\', \'' + ${stock.name} + '\', \'stock\', ' + ${stock.price} + ')'">
+                            交易
+                        </button>
+                    </td>
+                    <td th:unless="${hasStockAccount}">
+                        <span class="text-muted"><i class="fas fa-lock me-1"></i>需创建股票账户</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon gold-icon">
+                <i class="fas fa-coins"></i>
+            </div>
+            <h3 class="section-title">黄金行情</h3>
+        </div>
+        <table class="market-table">
+            <thead>
+                <tr style="background: transparent;">
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">品种</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">当前价格</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">涨跌</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">最高/最低</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="gold : ${goldData}" class="market-row">
+                    <td>
+                        <div class="symbol" th:text="${gold.symbol}">XAU</div>
+                        <div class="name" th:text="${gold.name}">黄金现货</div>
+                    </td>
+                    <td class="price" th:text="'$' + ${#numbers.formatDecimal(gold.price, 1, 2)}">$2350.50</td>
+                    <td>
+                        <span th:class="${gold.positive ? 'change-positive' : 'change-negative'}">
+                            <i th:if="${gold.positive}" class="fas fa-caret-up arrow-up"></i>
+                            <i th:unless="${gold.positive}" class="fas fa-caret-down arrow-down"></i>
+                            <span th:text="${#numbers.formatDecimal(gold.change, 1, 2)}">+15.30</span>
+                        </span>
+                        <span th:class="${gold.positive ? 'badge-positive change-badge' : 'badge-negative change-badge'}">
+                            <span th:text="${#numbers.formatDecimal(gold.changePercent, 1, 2)}">+0.65</span>%
+                        </span>
+                    </td>
+                    <td>
+                        <div class="high-low">
+                            <span class="high-label"><i class="fas fa-arrow-up me-1"></i>高: <span th:text="'$' + ${#numbers.formatDecimal(gold.high, 1, 2)}">$2365.00</span></span>
+                            <span class="low-label"><i class="fas fa-arrow-down me-1"></i>低: <span th:text="'$' + ${#numbers.formatDecimal(gold.low, 1, 2)}">$2335.00</span></span>
+                        </div>
+                    </td>
+                    <td th:if="${hasStockAccount}">
+                        <button class="action-btn btn-buy" 
+                                th:onclick="'openTradeModal(\'' + ${gold.symbol} + '\', \'' + ${gold.name} + '\', \'gold\', ' + ${gold.price} + ')'">
+                            交易
+                        </button>
+                    </td>
+                    <td th:unless="${hasStockAccount}">
+                        <span class="text-muted"><i class="fas fa-lock me-1"></i>需创建股票账户</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon future-icon">
+                <i class="fas fa-industry"></i>
+            </div>
+            <h3 class="section-title">期货行情</h3>
+        </div>
+        <table class="market-table">
+            <thead>
+                <tr style="background: transparent;">
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">期货品种</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">当前价格</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">涨跌</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">最高/最低</th>
+                    <th style="padding: 10px 15px; color: #666; font-weight: 600;">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="future : ${futures}" class="market-row">
+                    <td>
+                        <div class="symbol" th:text="${future.symbol}">CL</div>
+                        <div class="name" th:text="${future.name}">原油期货</div>
+                    </td>
+                    <td class="price" th:text="'$' + ${#numbers.formatDecimal(future.price, 1, 2)}">$80.50</td>
+                    <td>
+                        <span th:class="${future.positive ? 'change-positive' : 'change-negative'}">
+                            <i th:if="${future.positive}" class="fas fa-caret-up arrow-up"></i>
+                            <i th:unless="${future.positive}" class="fas fa-caret-down arrow-down"></i>
+                            <span th:text="${#numbers.formatDecimal(future.change, 1, 2)}">+1.20</span>
+                        </span>
+                        <span th:class="${future.positive ? 'badge-positive change-badge' : 'badge-negative change-badge'}">
+                            <span th:text="${#numbers.formatDecimal(future.changePercent, 1, 2)}">+1.50</span>%
+                        </span>
+                    </td>
+                    <td>
+                        <div class="high-low">
+                            <span class="high-label"><i class="fas fa-arrow-up me-1"></i>高: <span th:text="'$' + ${#numbers.formatDecimal(future.high, 1, 2)}">$82.00</span></span>
+                            <span class="low-label"><i class="fas fa-arrow-down me-1"></i>低: <span th:text="'$' + ${#numbers.formatDecimal(future.low, 1, 2)}">$79.50</span></span>
+                        </div>
+                    </td>
+                    <td th:if="${hasStockAccount}">
+                        <button class="action-btn btn-buy" 
+                                th:onclick="'openTradeModal(\'' + ${future.symbol} + '\', \'' + ${future.name} + '\', \'future\', ' + ${future.price} + ')'">
+                            交易
+                        </button>
+                    </td>
+                    <td th:unless="${hasStockAccount}">
+                        <span class="text-muted"><i class="fas fa-lock me-1"></i>需创建股票账户</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div id="tradeModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modalTitle">交易</h4>
+            <button type="button" class="close-btn" onclick="closeTradeModal()">&times;</button>
+        </div>
+        <form method="post" action="/finance/trade">
+            <input type="hidden" name="symbol" id="tradeSymbol">
+            <input type="hidden" name="assetName" id="tradeAssetName">
+            <input type="hidden" name="assetType" id="tradeAssetType">
+            <input type="hidden" name="price" id="tradePrice">
+
+            <div class="form-group">
+                <label class="form-label">交易品种</label>
+                <input type="text" class="form-control" id="tradeDisplay" readonly>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">当前价格</label>
+                <input type="text" class="form-control" id="tradePriceDisplay" readonly>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">交易类型</label>
+                <select class="form-control" name="tradeType" required>
+                    <option value="BUY">买入</option>
+                    <option value="SELL">卖出</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">交易数量</label>
+                <input type="number" class="form-control" name="quantity" min="0.01" step="0.01" placeholder="输入数量" required oninput="calculateTotal()">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">总金额</label>
+                <input type="text" class="form-control" id="totalAmount" readonly>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-check-circle me-2"></i>确认交易
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function openTradeModal(symbol, name, type, price) {
+        document.getElementById('tradeSymbol').value = symbol;
+        document.getElementById('tradeAssetName').value = name;
+        document.getElementById('tradeAssetType').value = type;
+        document.getElementById('tradePrice').value = price;
+        
+        document.getElementById('tradeDisplay').value = symbol + ' - ' + name;
+        document.getElementById('tradePriceDisplay').value = '$' + price.toFixed(2);
+        
+        let typeName = type === 'stock' ? '股票' : type === 'gold' ? '黄金' : '期货';
+        document.getElementById('modalTitle').textContent = typeName + '交易';
+        
+        document.getElementById('tradeModal').classList.add('show');
+    }
+
+    function closeTradeModal() {
+        document.getElementById('tradeModal').classList.remove('show');
+    }
+
+    function calculateTotal() {
+        let quantity = parseFloat(document.querySelector('input[name="quantity"]').value) || 0;
+        let price = parseFloat(document.getElementById('tradePrice').value) || 0;
+        let total = quantity * price;
+        document.getElementById('totalAmount').value = '$' + total.toFixed(2);
+    }
+
+    document.getElementById('tradeModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeTradeModal();
+        }
+    });
+</script>
+</body>
+</html>

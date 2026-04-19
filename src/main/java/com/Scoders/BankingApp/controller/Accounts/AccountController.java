@@ -39,7 +39,7 @@ public class AccountController {
     public String createAccForm(Model model,HttpSession session) {
         User user = (User) session.getAttribute("currentUser");
         model.addAttribute("user", user);
-        model.addAttribute("accountTypes", List.of("Savings", "Current"));
+        model.addAttribute("accountTypes", List.of("Savings", "Current", "Stock"));
         if (user == null) {
             model.addAttribute("errorMessage", "User not found!");
             return "login";
@@ -60,11 +60,16 @@ public class AccountController {
             return "login";
         }
 
+        String dbAccountType = switch (accountType) {
+            case "Stock" -> AccountDatabase.TYPE_STOCK;
+            case "Current" -> AccountDatabase.TYPE_CURRENT;
+            default -> AccountDatabase.TYPE_SAVINGS;
+        };
 
-        AccountDatabase.insertAccount(user.getId(),0.00);
+        AccountDatabase.insertAccount(user.getId(), 0.00, dbAccountType);
 
-        model.addAttribute("message","account created successful");
-        model.addAttribute("user",user);
+        model.addAttribute("message", accountType + " account created successful");
+        model.addAttribute("user", user);
         return "dashboard";
     }
 }
