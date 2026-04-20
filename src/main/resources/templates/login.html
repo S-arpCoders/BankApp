@@ -17,6 +17,9 @@
     Log Into your Account</h1>
 
 <h3 th:text="${response}" ></h3>
+<div th:if="${remainingAttempts != null}" class="alert alert-warning">
+    剩余登录尝试次数: <span th:text="${remainingAttempts}"></span>
+</div>
 <form action="#" th:action="@{/login}" method="post">
    <!-- <label for="username">Username:</label>-->
     <!--<input type="text" id="username" name="username" required>-->
@@ -30,6 +33,17 @@
 <!--    <label for="password">Password:</label>-->
 <!--    <input type="password" id="password" name="password" required>-->
     <br>
+    
+    <div th:if="${showCaptcha}" id="captchaSection">
+        <label for="captcha" class="form-label mt-4">验证码</label>
+        <div class="input-group">
+            <input type="text" class="form-control" name="captcha" id="captcha" placeholder="请输入验证码" autocomplete="off">
+            <img id="captchaImage" src="/captcha" alt="验证码" style="cursor: pointer; border: 1px solid #ccc; margin-left: 10px;" onclick="refreshCaptcha()">
+        </div>
+        <small class="text-muted">点击图片刷新验证码</small>
+        <br>
+    </div>
+    
     <div class="button-container">
         <!-- Login button -->
         <button type="submit" class="btn">
@@ -48,6 +62,15 @@
             </div>
     </div>
 </div>
+
+<script>
+function refreshCaptcha() {
+    var captchaImage = document.getElementById('captchaImage');
+    if (captchaImage) {
+        captchaImage.src = '/captcha?' + new Date().getTime();
+    }
+}
+</script>
 
 </body>
 </html>
