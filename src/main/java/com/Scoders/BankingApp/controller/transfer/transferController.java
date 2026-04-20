@@ -25,7 +25,9 @@ public class transferController {
             return "login";
         }
         List<Account> accounts = AccountDatabase.getAccountByUserId(user);
+        List<Account> allOtherAccounts = AccountDatabase.getAllAccountsExceptUser(user);
         model.addAttribute("accounts", accounts);
+        model.addAttribute("allOtherAccounts", allOtherAccounts);
         return "transfer";
     }
 
@@ -38,7 +40,9 @@ public class transferController {
         User user = (User) session.getAttribute("currentUser");
 
         List<Account> accounts = AccountDatabase.getAccountByUserId(user);
+        List<Account> allOtherAccounts = AccountDatabase.getAllAccountsExceptUser(user);
         model.addAttribute("accounts", accounts);
+        model.addAttribute("allOtherAccounts", allOtherAccounts);
 
         return use.transferFunds(user,fromAccount, toAccount, amount,model);
     }
