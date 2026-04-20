@@ -1,6 +1,7 @@
 package com.Scoders.BankingApp.database;
 
 import com.Scoders.BankingApp.model.User;
+import com.Scoders.BankingApp.security.PasswordEncoder;
 
 import java.sql.*;
 
@@ -29,9 +30,10 @@ public class UserDatabase {
 
         try (Connection conn = DriverManager.getConnection(DATABASE_URL);
              PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+            String encodedPassword = PasswordEncoder.encode(password);
             pstmt.setString(1, username);
             pstmt.setString(2, surname);
-            pstmt.setString(3, password);
+            pstmt.setString(3, encodedPassword);
             pstmt.executeUpdate();
             System.out.println("User inserted successfully.");
         } catch (SQLException e) {
