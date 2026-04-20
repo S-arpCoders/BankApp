@@ -17,6 +17,10 @@
         <img src="image/cash.png" alt="Register Icon"style="width: 30px; height: 30px; vertical-align: middle; margin-right: 8px; color:white; ">
         Register Here!
       </h2>
+      <div th:if="${response}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        <span th:text="${response}"></span>
+      </div>
       <form action="#" th:action="@{/register}" method="post">
         <!--<label for="username">Username:</label>
         <input type="text" id="username" name="username" required> -->
@@ -31,8 +35,25 @@
         <br>
        <!-- <label for="password">Password:</label>
         <input type="password" id="password" name="password" required> -->
-        .<label for="password" class="form-label mt-4">Password</label>
-        <input type="text" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" required>
+        <label for="password" class="form-label mt-4">Password</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" required>
+        
+        <div class="password-requirements" style="font-size: 12px; color: #666; margin-top: 5px;">
+          <p style="margin-bottom: 2px;"><strong>密码要求:</strong></p>
+          <ul style="margin-top: 2px; padding-left: 20px;">
+            <li>至少 8 个字符</li>
+            <li>至少一个大写字母 (A-Z)</li>
+            <li>至少一个小写字母 (a-z)</li>
+            <li>至少一个数字 (0-9)</li>
+            <li>至少一个特殊字符 (!@#$%^&*()_+-=[]{}|;':\",.&lt;&gt;?/)</li>
+            <li>不能包含连续字符序列 (如 123, abc)</li>
+            <li>不能包含重复字符序列 (如 111, aaa)</li>
+          </ul>
+        </div>
+        
+        <br>
+        <label for="confirmPassword" class="form-label mt-4">Confirm Password</label>
+        <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" autocomplete="off" required>
         <br>
         <div class="button-container_">
           <button type="submit" class="btn">
