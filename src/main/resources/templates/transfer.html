@@ -29,7 +29,7 @@
         <h3 th:classappend="${isError} ? 'error-message' : ''" th:if="${response}" th:text="${response}"></h3>
     </div>
     <!-- Form -->
-    <form action="/transfer" id="transferForm" method="post">
+    <form action="#" th:action="@{/transfer}" id="transferForm" method="post">
         <div class="form-group">
             <label class="form-label mt-4" for="fromAccount">From Account</label>
             <select class="form-select" id="fromAccount" name="fromAccount" required>
@@ -41,8 +41,14 @@
             </select>
         </div>
 
-        <label class="col-form-label mt-4" for="toAccount">To Account Number:</label>
-        <input class="form-control" id="toAccount" minlength="8" name="toAccount" required type="number">
+        <label class="form-label mt-4" for="toAccount">To Account</label>
+        <select class="form-select" id="toAccount" name="toAccount" required>
+            <option selected value="">Select an account</option>
+            <option th:each="account : ${allOtherAccounts}"
+                    th:text="'Account no.:' + ${account.accNo} + ' - ' + ${account.user.username} + ' ' + ${account.user.surname}"
+                    th:value="${account.accNo}">
+            </option>
+        </select>
 
         <label class="col-form-label mt-4" for="amount">Amount to transfer:</label>
         <div class="input-group mb-3">
