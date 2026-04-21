@@ -13,11 +13,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true) // Make the username unique
+    @Column(unique = true) 
     private String username;
 
     private String surname;
     private String password;
+    private String sessionId;
 
     // Getters and Setters
     public Long getId() {
@@ -50,5 +51,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }
